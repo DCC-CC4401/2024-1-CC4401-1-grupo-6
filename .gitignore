@@ -1,1 +1,3 @@
 ing_software/
+*.pyc
+__pycache__/
