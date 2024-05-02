@@ -1,0 +1,75 @@
+.nav {
+    background-color: #5bc0de; /* Color de fondo de la barra de navegación (celeste) */
+    overflow: hidden;
+    margin: 0%;
+  }
+  
+  .nav li {
+    display: inline-flex; /* Cambiamos a inline-block para que aparezcan uno al lado del otro */
+    color: #fff; /* Color del texto (blanco) */
+    text-align: center;
+    padding: 1.5% 2%; /* Padding en porcentaje */
+    text-decoration: none;
+  }
+
+  .nav a {
+    color: #fff; /* Color del texto (blanco) */
+    text-decoration: none; /* Quitamos subrayado */
+    font-size: 150%;
+  }
+  
+  .nav-left {
+    float: left; /* Alinear elementos a la izquierda */
+  }
+  
+  .nav-right {
+    float: right; /* Alinear elementos a la derecha */
+  }
+  
+  .nav-right li {
+    margin-left: 10px; /* Espacio entre los elementos derechos */
+  }
+
+  .navbar-right li:first-child {
+    float: right; /* Alinear el primer elemento derecho a la derecha */
+  }
+
+  .navbar-right li:not(:first-child) {
+    float: left; /* Alinear los otros elementos derechos a la izquierda */
+  }
+
+.content{
+    display: inline-flex;
+    width: 100%;
+    height: 80%;
+    align-items: flex-start;
+}
+.afiches {
+    width: 70%;
+    border: 2px solid #cc1eb5;
+}
+
+.filtrador {
+    width: 30%;
+    float: right;
+    background-color: #F0F0F0;
+    border: 2px solid #cc1eb5;
+}
+
+th{
+    height: 200px;
+    border: 2px solid black;
+}
+
+.azul{
+    background-color: #5bc0de;
+}
+.rojo{
+    background-color: #d9534f;
+}
+.verde{
+    background-color: #5cb85c;
+}
+.amarillo{
+    background-color: #f0ad4e;
+}

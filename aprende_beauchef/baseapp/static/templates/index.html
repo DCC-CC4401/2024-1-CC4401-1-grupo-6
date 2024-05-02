@@ -8,16 +8,23 @@
 {%block content%}
 <nav id="nav-id" class="nav">
     <ul>
-        <li><a href="#">Publical</a></li>
-        <li><a href="#">Registrate</a></li>
-        <li><a href="#">Ver Perfil</a></li>
+        <li id="publicar"><a href="#">Publicar</a></li>
+        <li id="registrar"><a href="#">Registrate</a></li>
+        <li id="perfil"><a href="#">Ver Perfil</a></li>
     </ul>
 </nav>
 <p>En este sitio podrás encontrar clases de apoyo para tus ramos de Beauchef</p>
 
 <div class="content">
     <div class="afiches">
-        <p>Proximamente</p>   
+        <tr>
+            <td class="afiche" id="azul"></td>
+            <td class="afiche" id="rojo"></td>
+
+        </tr>
+        <tr>
+            <td class="afiche" id="verde"></td>
+            <td class="afiche" id="amarillo"></td>
     </div>
     <form class="filtrador">
         <input id="buscador" class="filtro" type="text" name="search" placeholder="Preferencias">
