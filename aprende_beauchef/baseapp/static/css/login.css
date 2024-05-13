@@ -1,0 +1,91 @@
+
+/* Login */
+.page_title{
+    position: absolute;
+    left: 45%;
+    right: 45%;
+    top: 9%;
+    bottom: 77.75%;
+    
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 53px;
+    
+    color: #252EFF;
+}
+
+
+/* login_button */
+#submit-btn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    position: absolute;
+    left: 45%;
+    right: 45%;
+    top: 74%;
+    bottom: 16.5%;
+
+    background: #252EFF;
+    border-radius: 20px;
+}
+
+/* LOGIN */
+#submit-btn{
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 25px;
+line-height: 18px;
+
+color: #FFFFFF;
+}
+
+/* username */
+.username_input {
+    box-sizing: border-box;
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 26.33%;
+    bottom: 67.33%;
+
+    border: 2px solid #6066FF;
+    border-radius: 10px;
+}
+
+/* password */
+.password_input {
+    box-sizing: border-box;
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 40%;
+    bottom: 80%;
+
+    border: 2px solid #6066FF;
+    border-radius: 10px;
+}
