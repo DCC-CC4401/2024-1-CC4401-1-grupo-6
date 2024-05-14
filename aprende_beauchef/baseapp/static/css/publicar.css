@@ -1,0 +1,64 @@
+/* Register-Light */
+/* Por trabajar */
+
+.container-form {
+    position: relative;
+    width: 400px;
+    height: 600px;
+
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.titulo {
+    position: absolute;
+    left: 27.5%;
+    right: 27.25%;
+    top: 6%;
+    bottom: 85.17%;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 53px;
+
+    color: #252EFF;
+}
+
+/* name */
+.input {
+    box-sizing: border-box;
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 26.33%;
+    bottom: 67.33%;
+
+    border: 2px solid #6066FF;
+    border-radius: 10px;
+}
+
+.inputNombre {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 35.83%;
+    bottom: 57.83%;
+
+    border: 2px solid #6066FF;
+    border-radius: 10px;
+}
