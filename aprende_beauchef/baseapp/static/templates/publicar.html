@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+{%block title%}
+Publicar
+{%endblock%}
+{%block content%}
+<div class="container-form">
+    <form name="formularioPublicar" id="form_artesano" method="post" enctype="multipart/form-data">
+        <h2 class="titulo">Publicar</h2>
+        <div class="input">
+            <label for="miAfiche">Sube tu afiche:</label>
+            <input type="file" id="miAfiche" name="miAfiche" accept="image/,.pdf">
+        </div>
+        <div class="inputNombre">
+            <label for="fnombre">Escribe el nombre de tu archivo:</label>
+            <input type="text" id="fnombre" name="fnombre"><br>
+        </div>
+        <div class="inputDescripcion">
+            <label for="fdescripcion">Escribe una descripción:</label>
+            <input type="text" id="fdescripcion" name="fdescripcion"><br>
+        </div>
+
+        <label for="cursos">Escoge el curso:</label>
+
+        <select name="cursos" id="cursos">
+            <option value="Ninguno">---</option>
+            <option value="Curso1">Curso1</option>
+            <option value="Curso2">Curso2</option>
+            <option value="Curso3">Curso3</option>
+        </select><br>
+
+        <label for="fPrecio">Precio estimado:</label>
+        <input type="number" id="fPrecio" name="fPrecio"><br>
+        <button id="bSubmit" type="button"> Publicar </button>
+    </form>
+    <div id="popup-box" hidden>
+        <h2 id="popup-msg"></h2>
+        <button id="b1"> Sí, confirmo </button>
+        <button id="b2"> No, quiero volver al formulario </button>
+    </div>
+</div>
+{%endblock%}

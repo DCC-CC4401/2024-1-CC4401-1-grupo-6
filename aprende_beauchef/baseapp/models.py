@@ -49,14 +49,14 @@ class Horario(models.Model):
     hora_fin = models.TimeField()
 
 
-modalidad_choices = ["remota", "presencial"]
+modalidad_choices = [("rem", "remota"), ("pres", "presencial")]
 
 
 class Tutor(models.Model):
 
     telefono = models.IntegerField(editable=True)
     precio = models.IntegerField(editable=True)
-    modalidad_preferida = models.CharField(choices=modalidad_choices, editable=True)
+    modalidad_preferida = models.CharField(choices=modalidad_choices, editable=True, max_length=200)
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
 
     # ----- SINGLE VERSION -----
@@ -68,8 +68,8 @@ class Tutor(models.Model):
 
 
 class Materia(models.Model):
-    codigo_curso = models.CharField(primary_key=True)
-    nombre = models.CharField()
+    codigo_curso = models.CharField(primary_key=True, max_length=200)
+    nombre = models.CharField(max_length=200)
 
 
 class Afiche(models.Model):
@@ -86,7 +86,7 @@ class Tutoria(models.Model):
     fecha = models.DateTimeField()
     curso = models.ForeignKey(Materia, on_delete=models.CASCADE)
     duracion = models.IntegerField(default=0, help_text="ingrese minutos")
-    modalidad = models.CharField(choices=modalidad_choices)
+    modalidad = models.CharField(choices=modalidad_choices, max_length=200)
     sala = models.CharField(max_length=200)
 
 
