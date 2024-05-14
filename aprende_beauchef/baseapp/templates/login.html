@@ -2,6 +2,31 @@
 {%block title%}
     Iniciar sesión
 {%endblock%}
+{%block stylesheets%}
+    <link rel="stylesheet"  type="text/css" href="/static/css/login.css">
+{%endblock%}
 {%block content%}
-    <h1>Hola, estamos listos para maquetar el login</h1>
+    <div class = "main-container"> 
+
+        <div class="page_title"> 
+            <h2> Login </h2>
+        </div>
+
+        <div class = "login_form_class"> 
+            <form name="login_form" id="login_form" method="post" enctype="multipart/form-data">
+                <div class = "username_input"> 
+                    <label for="username"> Nombre de Usuario: </label> <br>
+                    <input type="text" id="username" name="username"> 
+                </div>
+
+                <div class = "password_input"> 
+                    <label for="password_section"> Contraseña: </label> <br>
+                    <input type="password" id="password_id" name="password_section"> 
+                </div>
+                
+                <button id="submit-btn" type="button"> Iniciar sesión </button>
+            </form>
+        </div>  
+
+    </div>
 {%endblock%}
