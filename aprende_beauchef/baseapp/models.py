@@ -1,4 +1,4 @@
-'''from django.db import models
+from django.db import models
 from django.contrib.auth.models import AbstractUser
 import json
 
@@ -102,4 +102,3 @@ class Publica(models.Model):
     afiche = models.ForeignKey(Afiche, on_delete=models.CASCADE)
 
     fecha = models.DateTimeField()
-'''
