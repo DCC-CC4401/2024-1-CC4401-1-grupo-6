@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 AUTH_USER_MODEL = 'baseapp.Usuario'
 
@@ -57,7 +58,7 @@ ROOT_URLCONF = "aprende_beauchef.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "baseapp/static/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
