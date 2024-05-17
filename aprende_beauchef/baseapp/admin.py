@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Usuario, Estudiante, Tutor, Materia, Horario, Tutoria, Afiche
 
-# Register your models here.
+admin.site.register(Usuario)
+admin.site.register(Estudiante)
+admin.site.register(Tutor)
+admin.site.register(Materia)
+admin.site.register(Horario)
+admin.site.register(Tutoria)
+admin.site.register(Afiche)
