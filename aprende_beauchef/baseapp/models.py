@@ -5,7 +5,7 @@ import json
 
 # ------------- ENTIDADES -------------
 class Usuario(AbstractUser):
-    pass
+    name = models.TextField(blank=True, null=True)
 
 
 class Estudiante(models.Model):
@@ -56,7 +56,9 @@ class Tutor(models.Model):
 
     telefono = models.IntegerField(editable=True)
     precio = models.IntegerField(editable=True)
-    modalidad_preferida = models.CharField(choices=modalidad_choices, editable=True, max_length=200)
+    modalidad_preferida = models.CharField(
+        choices=modalidad_choices, editable=True, max_length=200
+    )
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
 
     # ----- SINGLE VERSION -----

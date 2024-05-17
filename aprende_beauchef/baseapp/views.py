@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .models import Usuario
 
 
 # Create your views here.
@@ -23,4 +24,11 @@ def test(request):
         return render(request, "test_form.html")
     if request.method == "POST":
         data = request.POST
+        user = Usuario(
+            username=data.get("username"),
+            name=data.get("name"),
+            password=data.get("password_section"),
+            email=data.get("email"),
+        )
+        user.save()
         return render(request, "test_items.html", {"data": data})
