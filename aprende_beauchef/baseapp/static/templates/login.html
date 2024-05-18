@@ -3,7 +3,7 @@
     Iniciar sesión
 {%endblock%}
 {%block stylesheets%}
-    <link rel="stylesheet"  type="text/css" href="/static/css/login.css">
+    <!--<link rel="stylesheet"  type="text/css" href="/static/css/login.css"> -->
 {%endblock%}
 {%block content%}
     <div class = "main-container"> 
@@ -24,9 +24,11 @@
                     <input type="password" id="password_id" name="password_section"> 
                 </div>
                 
-                <button id="submit-btn" type="button"> Iniciar sesión </button>
+                <button id="submit-btn" type="button"> Iniciar sesión </button><br>  
             </form>
-        </div>  
 
+            <button id="register-btn" type="button" onclick="location.href = 'http://127.0.0.1:8000/register'"> No tengo cuenta </button><br>
+            <button type="buttom" onclick="location.href = 'http://127.0.0.1:8000/'" class="volverInicio">Volver</button>
+        </div>  
     </div>
 {%endblock%}
