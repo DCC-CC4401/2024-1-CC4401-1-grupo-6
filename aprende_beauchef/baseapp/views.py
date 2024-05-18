@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from .models import Usuario, Tutor, Estudiante
 from django.contrib.auth import logout
-from django.http import HttpResponseRedirect
 
 # Create your views here.
 def index(request):
@@ -26,7 +25,7 @@ def login_view(request):
 
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect("/")
+    return redirect("index")
 
 def publicar(request):
     return render(request, "publicar.html")
@@ -45,4 +44,4 @@ def register(request):
         user.save()
         estudiante = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
         estudiante.save()
-        return render(request, "test_items.html", {"data": data})
+        return redirect("login")
