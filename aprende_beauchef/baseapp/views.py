@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import make_password
 from .models import Usuario, Tutor, Estudiante
 
 
@@ -7,8 +9,19 @@ def index(request):
     return render(request, "index.html")
 
 
-def login(request):
-    return render(request, "login.html")
+def login_view(request):
+    if request.method == "GET":
+        return render(request, "login.html")
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        print("User:", user)  # Debe mostrar el objeto usuario si la autenticación es exitosa, None de lo contrario
+        if user is not None:
+            login(request, user)
+            return redirect('index')  # Asegúrate de que 'index' sea una URL válida en tu archivo urls.py
+        else:
+            return render(request, 'login.html', {'error': 'Invalid username or password'})
 
 
 def publicar(request):
@@ -18,14 +31,14 @@ def publicar(request):
 def register(request):
     if request.method == "GET":
         return render(request, "register.html")
-    if request.method == "POST":
+    elif request.method == "POST":
         data = request.POST
         user = Usuario(
             username=data.get("nombre_de_usuario"),
             name=data.get("nombre"),
-            password=data.get("contrasenha"),
             email=data.get("email"),
         )
+        user.set_password(data.get("contrasenha"))  # Esto hashea la contraseña correctamente
         user.save()
         estudiante = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
         estudiante.save()
