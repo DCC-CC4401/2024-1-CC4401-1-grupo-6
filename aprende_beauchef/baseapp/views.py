@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Usuario
+from .models import Usuario, Tutor, Estudiante
 
 
 # Create your views here.
@@ -16,19 +16,17 @@ def publicar(request):
 
 
 def register(request):
-    return render(request, "register.html")
-
-
-def test(request):
     if request.method == "GET":
-        return render(request, "test_form.html")
+        return render(request, "register.html")
     if request.method == "POST":
         data = request.POST
         user = Usuario(
-            username=data.get("username"),
-            name=data.get("name"),
-            password=data.get("password_section"),
+            username=data.get("nombre_de_usuario"),
+            name=data.get("nombre"),
+            password=data.get("contrasenha"),
             email=data.get("email"),
         )
         user.save()
+        estudiante = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
+        estudiante.save()
         return render(request, "test_items.html", {"data": data})
