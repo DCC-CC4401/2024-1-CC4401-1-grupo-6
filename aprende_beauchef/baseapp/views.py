@@ -1,19 +1,21 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect   
 from .models import Usuario
-
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def index(request):
     return render(request, "index.html")
 
-
 def login(request):
     return render(request, "login.html")
 
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect("/")
 
 def publicar(request):
     return render(request, "publicar.html")
-
 
 def register(request):
     return render(request, "register.html")
