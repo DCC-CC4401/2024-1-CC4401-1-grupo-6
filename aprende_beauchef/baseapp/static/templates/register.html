@@ -1,35 +1,39 @@
 {%extends 'base.html'%}
 {%block title%}
-    Regístrate
+Regístrate
 {%endblock%}
 {%block content%}
-    <div>
-        <h1>Registrate</h1>
-        <form name="formularioRegistro" method="post">
-            {% csrf_token %}
-            <div class="nombre_input">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" required><br>
-            </div>
-            <div class="nombre_de_usuario_input">
-                <label for="nombre_de_usuario">Nombre de usuario</label>
-                <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" required></br>
-            </div>
-            <div class="email_input">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required></br>
-            </div>
-            <div class="contrasenha_input">
-                <label for="contrasenha">Contraseña</label>
-                <input type="password" id="contrasenha" name="contrasenha" required></br>
-            </div>
-            <div class="contrasenha2_input">
-                <label for="contrasenha2">Confirma tu contraseña</label>
-                <input type="password" id="contrasenha2" name="contrasenha2" required></br>
-            </div>
-            <div class="register_button">
-                <button type="submit" class="envioFormulario">Registrarse</button>
-            </div>
-        </form>
-    </div>
+<div>
+    <h1>Registrate</h1>
+    <form name="formularioRegistro" method="post">
+        {% csrf_token %}
+        <div class="nombre_input">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required><br>
+        </div>
+        <div class="nombre_de_usuario_input">
+            <label for="nombre_de_usuario">Nombre de usuario</label>
+            <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" required></br>
+        </div>
+        <div class="email_input">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required></br>
+        </div>
+        <div class="contrasenha_input">
+            <label for="contrasenha">Contraseña</label>
+            <input type="password" id="contrasenha" name="contrasenha" required></br>
+        </div>
+        <div class="contrasenha2_input">
+            <label for="contrasenha2">Confirma tu contraseña</label>
+            <input type="password" id="contrasenha2" name="contrasenha2" required></br>
+        </div>
+        <div class="register_button">
+            <button type="submit" class="envioFormulario">Registrarse</button>
+        </div>
+    </form>
+    <button type="button" onclick="location.href = 'http://127.0.0.1:8000/login'"
+        class="Tengo Cuenta">Ingresar</button><br>
+    <button type="buttom" onclick="location.href = 'http://127.0.0.1:8000/'" class="volverInicio">Volver</button>
+
+</div>
 {%endblock%}

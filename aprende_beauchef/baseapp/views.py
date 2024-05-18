@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect   
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from .models import Usuario, Tutor, Estudiante
-
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def index(request):
@@ -23,10 +24,12 @@ def login_view(request):
         else:
             return render(request, 'login.html', {'error': 'Invalid username or password'})
 
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect("/")
 
 def publicar(request):
     return render(request, "publicar.html")
-
 
 def register(request):
     if request.method == "GET":
