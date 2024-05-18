@@ -24,3 +24,18 @@ Luego, cuando alguien descargue el proyecto, y ya tenga ACTIVADO su ambiente vir
 ```
 pip install -r requirements.txt
 ```
+
+## Testing the app and visualize the database 
+Creación de superusuario en entornos locales: Cada miembro del equipo deberá crear su propio superusuario localmente después de configurar su entorno de desarrollo. Esto se hace fácilmente con el comando: 
+
+```
+python manage.py createsuperuser.
+```
+
+Usando su admin panel se puede visualizar la base de datos y los datos que allí almacenamos.
+
+
+Para correr los tests de models que ya se encuentran creados en la carpeta tests, se usa el siguiente comando:
+```
+python manage.py test baseapp.tests.test_models
+```
