@@ -2,9 +2,16 @@
 {%block title%}
 Regístrate
 {%endblock%}
+{%block stylesheets%}
+<link rel="stylesheet"  type="text/css" href="/static/css/register.css">
+{%endblock%}
 {%block content%}
-<div>
-    <h1>Registrate</h1>
+<div class="main-container">
+
+    <div class="page_title">
+        <h1>Registrate</h1>
+    </div>
+
     <form name="register_form" method="post">
         {% csrf_token %}
         <div class="name_input">
@@ -29,11 +36,10 @@ Regístrate
         </div>
         <div class="register_button">
             <button type="submit" class="envioFormulario">Registrarse</button>
+            <button type="button" onclick="location.href = 'http://127.0.0.1:8000/login'" class="HaveAccount"> Ingresar </button>
+            <button type="button" onclick="location.href = 'http://127.0.0.1:8000/'" class="backToIndex"> Volver </button>
         </div>
     </form>
     
-    <button type="button" onclick="location.href = 'http://127.0.0.1:8000/login'" class="HaveAccount"> Ingresar </button><br>
-    <button type="button" onclick="location.href = 'http://127.0.0.1:8000/'" class="backToIndex"> Volver </button>
-
 </div>
 {%endblock%}
