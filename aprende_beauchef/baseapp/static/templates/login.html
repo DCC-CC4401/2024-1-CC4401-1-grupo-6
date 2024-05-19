@@ -24,13 +24,14 @@ Iniciar sesión
                 <label for="password"> Contraseña: </label> <br>
                 <input type="password" id="password" name="password">
             </div>
-
-            <button id="submit-btn" type="submit"> Iniciar sesión </button>
+            <div class="login_button">
+                <button id="login_button" type="submit"> Iniciar sesión </button>
+            </div>
+            
         </form>
 
-        <button id="register-btn" type="button" onclick="location.href = 'http://127.0.0.1:8000/register'"> No tengo
-            cuenta </button><br>
-        <button type="buttom" onclick="location.href = 'http://127.0.0.1:8000/'" class="volverInicio">Volver</button>
+        <button type="button" class="NotAccount" onclick="location.href = 'http://127.0.0.1:8000/register'"> No tengo cuenta </button> <br>
+        <button type="button" class="backToIndex" onclick="location.href = 'http://127.0.0.1:8000/'" > Volver </button> <br>
     </div>
 </div>
 {%endblock%}
