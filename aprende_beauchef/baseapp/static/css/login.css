@@ -36,8 +36,15 @@
     border-radius: 20px; /* Bordes redondeados */
 }
 
-/* Botón de Inicio de Sesión */
-#submit-btn {
+.button-container {
+    display: flex;
+    flex-direction: row; /* Alinea los botones en fila */
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 10px; /* Espacio entre los botones */
+}
+
+/* Botón de  */
+#login_button {
     background-color: #007BFF; /* Color de fondo azul */
     border: none; /* Sin bordes */
     color: white; /* Texto en blanco */
@@ -48,6 +55,38 @@
     transition: background-color 0.3s; /* Transición suave del color de fondo */
 }
 
-#submit-btn:hover {
+#login_button:hover {
+    background-color: #0056b3; /* Color al hacer hover */
+}
+
+/* Botón de  */
+#NotAccount {
+    background-color: #007BFF; /* Color de fondo azul */
+    border: none; /* Sin bordes */
+    color: white; /* Texto en blanco */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Tamaño del texto */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+#NotAccount:hover {
+    background-color: #0056b3; /* Color al hacer hover */
+}
+
+/* Botón de  */
+#backToIndex {
+    background-color: #007BFF; /* Color de fondo azul */
+    border: none; /* Sin bordes */
+    color: white; /* Texto en blanco */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Tamaño del texto */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+#backToIndex:hover {
     background-color: #0056b3; /* Color al hacer hover */
 }
