@@ -1,0 +1,75 @@
+/* Estilo General del Contenedor */
+.main-container {
+    font-family: Arial, sans-serif;
+    width: 500px; /* Ancho fijo para el contenedor */
+    margin: 50px auto; /* Centrado automático y margen vertical */
+    padding: 20px; /* Espacio interno para no tocar los bordes */
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Sombra para efecto de profundidad */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: white; /* Color de fondo */
+    border: 1px solid #ccc; /* Borde sutil para mejorar la consistencia visual */
+}
+
+/* Título del formulario */
+h1 {
+    text-align: center; /* Alineación central del título */
+    color: #0056b3; /* Color del texto */
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+/* Estilos de los campos del formulario */
+div[class$="_input"] { /* Selector para divs que contienen inputs */
+    margin-bottom: 10px; /* Espacio entre cada grupo de etiqueta y campo */
+}
+
+label {
+    display: block; /* Asegura que la etiqueta ocupe su propia línea */
+    color: #000; /* Color de texto para las etiquetas */
+    font-size: 16px; /* Tamaño de texto apropiado */
+    margin-bottom: 5px; /* Espacio debajo de la etiqueta */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: calc(100% - 20px); /* Ancho ajustado para incluir el padding */
+    padding: 8px; /* Padding dentro del input para mejor toque */
+    margin-bottom: 10px; /* Margen debajo de cada input */
+    border: 2px solid #6066FF; /* Borde colorido para visualización destacada */
+    border-radius: 5px; /* Bordes redondeados para estética suave */
+}
+
+/* Estilos para los botones */
+button {
+    background-color: #007BFF; /* Color principal para el fondo */
+    border: none; /* Sin bordes extra */
+    color: white; /* Color de texto dentro del botón */
+    padding: 10px 20px; /* Padding adecuado para un tacto cómodo */
+    font-size: 16px; /* Tamaño de letra legible */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano indica acción */
+    transition: background-color 0.3s; /* Transición suave al cambiar color */
+}
+
+button:hover {
+    background-color: #0056b3; /* Color al pasar el cursor */
+}
+
+/* Contenedor de botones para alinearlos horizontalmente */
+.button-container {
+    display: flex; /* Flex para disposición lineal */
+    justify-content: space-between; /* Justifica el contenido espaciadamente */
+    gap: 10px; /* Espacio entre botones */
+}
+
+/* Estilos para asegurar que los botones no se alineen con los campos de entrada */
+.register_button, .HaveAccount, .backToIndex {
+    display: block; /* Muestra como bloque para ocupar toda la línea */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    text-align: center; /* Alinea el texto y cualquier contenido al centro */
+    margin-top: 10px; /* Margen superior para separación */
+}
+
+.envioFormulario {
+    width: 100%; /* Ancho completo para el botón de envío */
+}
