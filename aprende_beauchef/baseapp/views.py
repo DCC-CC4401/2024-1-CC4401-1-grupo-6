@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .models import Usuario, Tutor, Estudiante
+from django.http import HttpResponse
+from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
+import os
 
 
 """
@@ -55,7 +57,63 @@ Usa el método render que construye la plantilla publicar
 parámetro request Información relacionada a la solicitud que se realiza
 """
 def publish(request):
-    return render(request, "publicar.html")
+    if request.method == "GET":
+        courses = Materia.objects.all()
+        return render(request, "publicar.html", {"courses": courses})
+    else:
+        poster = request.POST.get("my_poster")
+        name = request.POST.get("name")
+        description = request.POST.get("description")
+        course = request.POST.get("courses")
+        price = request.POST.get("price")
+        modality = request.POST.get("modality")
+        phone = request.POST.get("phone")
+        modality = request.POST.get("modality")
+        phone = request.POST.get("phone")
+        disponibility = request.POST.get("disponibility")
+        time_init = request.POST.get("time-init")
+        time_end = request.POST.get("time-end")
+
+
+        if name is not None:
+            poster_path = os.path.join("baseapp", "static", "uploads", name)
+            poster_path.replace("\\", "/")
+
+
+            poster = Afiche(url = poster_path, descripcion = description, nombre = name)
+            poster.save()
+
+            if not Tutor.objects.filter(usuario=request.user).exists():
+                tutor = Tutor(
+                    telefono = phone,
+                    precio = price, 
+                    modalidad_preferida = modality, 
+                    usuario = request.user
+                    )
+                tutor.save()
+                print("acabo de guardar el tutor")
+                horario = Horario(dia_semana = disponibility, hora_inicio = time_init, hora_fin = time_end)
+                horario.save()
+                tutor = Tutor.objects.get(usuario=request.user)
+                tutor.horario.add(horario)
+
+                subject = Materia.objects.get(codigo_curso=course)
+                dictates = Dicta(tutor = tutor, materia = subject)    
+                dictates.save()
+                publishes = Publica(dicta = dictates, afiche = poster)
+                publishes.save()
+            else:
+                tutor = Tutor.objects.get(usuario=request.user)
+                subject = Materia.objects.get(codigo_curso=course)
+                dictates = Dicta(tutor = tutor, materia = subject)    
+                dictates.save()
+                publishes = Publica(dicta = dictates, afiche = poster)
+                publishes.save()
+
+            return redirect('index')
+        else:
+            return HttpResponse("Error al publicar el afiche")
+
 
 """
 Dependiendo del método, renderiza la página de registro o ingresa la información 

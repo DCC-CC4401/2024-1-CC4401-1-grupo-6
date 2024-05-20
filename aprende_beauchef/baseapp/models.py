@@ -150,6 +150,8 @@ VersionActual 1.0.0
 class Afiche(models.Model):
     url = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
+    #Pendiente
+    nombre = models.CharField(max_length=200)
 
 """
 Una clase que representa una tutoria
@@ -203,4 +205,4 @@ class Publica(models.Model):
     dicta = models.ForeignKey(Dicta, on_delete=models.CASCADE)
     afiche = models.ForeignKey(Afiche, on_delete=models.CASCADE)
 
-    fecha = models.DateTimeField()
+    fecha = models.DateTimeField(auto_now_add=True)
