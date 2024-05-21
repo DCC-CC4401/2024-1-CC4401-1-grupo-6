@@ -9,7 +9,7 @@ Publicar
         <h2 class="title"> Publicar </h2>
         <div class="poster_input">
             <label for="my_poster"> Sube tu afiche: </label>
-            <input type="file" id="my_poster" name="my_poster" accept="image/,.pdf">
+            <input type="file" id="my_poster" name="my_poster" accept="image/*,.pdf,.png">
         </div>
         <div class="name_input">
             <label for="name"> Escribe el nombre de tu afiche: </label>
@@ -28,16 +28,16 @@ Publicar
             {%endfor%}
         </select> <br>
 
-        <label for="price"> Precio estimado: (ej: 14000) </label>
-        <input type="number" id="price" name="price"> <br>
+        <label for="price"> Precio estimado: </label>
+        <input type="number" id="price" name="price" placeholder="14000"> <br>
         <label for="modality"> Modalidad: </label>
         <select name="modality" id="modality">
             <option value="Ninguna"> --- </option>
             <option value="pres"> Presencial </option>
             <option value="rem"> Online </option>
         </select> <br>
-        <label for="phone"> Teléfono de contacto: (ej: 987654321) </label>
-        <input type="number" id="phone" name="phone"> <br>
+        <label for="phone"> Teléfono de contacto:</label>
+        <input type="number" id="phone" name="phone" placeholder="987654321" > <br>
         <label for="disponibility"> Disponibilidad: </label>
         <select name="disponibility" id="disponibility">
             <option value="Ninguna"> --- </option>
@@ -50,9 +50,9 @@ Publicar
             <option value="DOM"> Domingo </option>
         </select> <br>
         <label for="time-init"> Hora inicio: </label>
-        <input type="time-init" id="time-init" name="time-init"> <br>
+        <input type="time-init" id="time-init" name="time-init" placeholder="HH:MM"> <br>
         <label for="time-end"> Hora fin: </label>
-        <input type="time-end" id="time-end" name="time-end"> <br>
+        <input type="time-end" id="time-end" name="time-end" placeholder="HH:MM"> <br>
         <div class="publish_button">
             <button id="publish_button" type="submit"> Publicar </button>
         </div>

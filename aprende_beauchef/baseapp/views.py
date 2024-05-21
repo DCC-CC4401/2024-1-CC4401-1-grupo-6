@@ -6,25 +6,30 @@ from django.contrib.auth import logout
 import os
 
 
-"""
-Renderiza la página principal de la aplicación
-Usa el método render que construye la plantilla index
-Como requiere información de la base de datos, accede para extraer afiches y mostrarlos
-
-parámetro request Información relacionada a la solicitud que se realiza
-"""
 def index(request):
-    return render(request, "index.html")
+    """
+    Renderiza la página principal de la aplicación
+    Usa el método render que construye la plantilla index
+    Como requiere información de la base de datos, accede para extraer afiches y mostrarlos
 
-"""
-Dependiendo el método, renderiza la página de acceso a la aplicación o permite el acceso.
-Si la solicitud es un GET, construye la plantilla login. Si es un POST, revisa que la
-información entregada corresponda a un usuario registrado en la página. Si es así,
-permite ingresar en la sesión y redireacciona a la página principal. Sino muestra un error. 
+    parámetro request Información relacionada a la solicitud que se realiza
+    """
+    posters = Afiche.objects.all()
+    if len(posters) > 8:
+        posters = posters[:8]
+    else:
+        posters = posters
+    return render(request, "index.html", {'afiches': posters})
 
-parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
-"""
 def login_view(request):
+    """
+    Dependiendo el método, renderiza la página de acceso a la aplicación o permite el acceso.
+    Si la solicitud es un GET, construye la plantilla login. Si es un POST, revisa que la
+    información entregada corresponda a un usuario registrado en la página. Si es así,
+    permite ingresar en la sesión y redireacciona a la página principal. Sino muestra un error. 
+
+    parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
+    """
     if request.method == "GET":
         return render(request, "login.html")
     if request.method == "POST":
@@ -39,29 +44,31 @@ def login_view(request):
                 request, "login.html", {"error": "Invalid username or password"}
             )
 
-"""
-Cierra la sesión de un usuario autentificado en la aplicación
-Usa el método logout para limpiar la información relacionada a la sesión del usuario. 
-No retorna. Luego se redirecciona a la página principal con el método redirect.
-
-parámetro request Información relacionada a la solicitud que se realiza
-"""
 def logout_user(request):
+    """
+    Cierra la sesión de un usuario autentificado en la aplicación
+    Usa el método logout para limpiar la información relacionada a la sesión del usuario. 
+    No retorna. Luego se redirecciona a la página principal con el método redirect.
+
+    parámetro request Información relacionada a la solicitud que se realiza
+    """
     logout(request)
     return redirect("index")
 
-"""
-Renderiza la página relacionada a la publicación de afiches
-Usa el método render que construye la plantilla publicar
-
-parámetro request Información relacionada a la solicitud que se realiza
-"""
 def publish(request):
+    """
+    Si el metodo de la request es de tipo GET, renderiza la página relacionada a la publicación de afiches
+    Usa el método render que construye la plantilla publicar
+
+    Si el metodo de la request es de tipo POST, recibe la información enviada por el formulario de publicación y 
+    la procesa para ser guardada en la base de datos.
+    Si el usuario ingreso mal algun campo se retorna un HttpResponse con un mensaje de error, de caso contrario redireccionamos a la página principal.
+    """
     if request.method == "GET":
         courses = Materia.objects.all()
         return render(request, "publicar.html", {"courses": courses})
     else:
-        poster = request.POST.get("my_poster")
+        my_poster = request.FILES.get("my_poster")
         name = request.POST.get("name")
         description = request.POST.get("description")
         course = request.POST.get("courses")
@@ -76,11 +83,7 @@ def publish(request):
 
 
         if name is not None:
-            poster_path = os.path.join("baseapp", "static", "uploads", name)
-            poster_path.replace("\\", "/")
-
-
-            poster = Afiche(url = poster_path, descripcion = description, nombre = name)
+            poster = Afiche(url = my_poster, descripcion = description, nombre = name)
             poster.save()
 
             if not Tutor.objects.filter(usuario=request.user).exists():
@@ -115,17 +118,18 @@ def publish(request):
             return HttpResponse("Error al publicar el afiche")
 
 
-"""
-Dependiendo del método, renderiza la página de registro o ingresa la información 
-de un usuario nuevo a la base de datos.
-Si la solicitud es un GET, construye la plantilla register. Si es un POST, recibe
-la información enviada por el formulario de registro y crea un nuevo usuario y, en su defecto,
-un estudiante. Luego redirecciona a la página login para que el usuario pueda ingresar.
 
-parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
-
-"""
 def register(request):
+    """
+    Dependiendo del método, renderiza la página de registro o ingresa la información 
+    de un usuario nuevo a la base de datos.
+    Si la solicitud es un GET, construye la plantilla register. Si es un POST, recibe
+    la información enviada por el formulario de registro y crea un nuevo usuario y, en su defecto,
+    un estudiante. Luego redirecciona a la página login para que el usuario pueda ingresar.
+
+    parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
+
+    """
     if request.method == "GET":
         return render(request, "register.html")
     elif request.method == "POST":
