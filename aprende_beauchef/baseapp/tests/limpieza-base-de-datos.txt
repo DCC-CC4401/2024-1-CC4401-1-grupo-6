@@ -1,0 +1,19 @@
+-- database: c:\Users\luise\Desktop\UCH\7mo Semestre\Ing. Software\2024-1-CC4401-1-grupo-6\aprende_beauchef\db.sqlite3
+
+-- Use the ▷ button in the top right corner to run the entire file.
+
+SELECT * FROM baseapp_afiche;
+
+-- Desactivar temporalmente las restricciones de claves foráneas
+PRAGMA foreign_keys = OFF;
+
+-- Eliminar todas las filas de las tablas
+DELETE FROM baseapp_afiche;
+DELETE FROM baseapp_dicta;
+DELETE FROM baseapp_horario;
+DELETE FROM baseapp_tutor;
+DELETE FROM baseapp_tutor_horario;
+DELETE FROM baseapp_publica;
+
+-- Reactivar las restricciones de claves foráneas
+PRAGMA foreign_keys = ON;

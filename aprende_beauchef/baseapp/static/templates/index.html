@@ -25,72 +25,18 @@
 
 <div class="content">
     <div class="afiches">
+        {%for poster in afiches%}
         <article>
-            <div class="container-titulo">
-                <h2>Título Afiche</h2>
+            <div class = "container-titulo">
+                <h2>{{poster.nombre}}</h2>
             </div>
-            <div class="container-afiche">
-                    <img
-                        src="https://th.bing.com/th/id/OIP.VHPkRI6R8VjjDURH33d6_wHaFj?rs=1&pid=ImgDetMain"
-                        alt="Preview"
-                    >
-            </div>
+            <div class = "container-afiche">
+                <img src = "{{poster.url.url}}" alt="{{afiche.nombre}}" >
+            </div>    
+
         </article>
-        <article>
-            <div class="container-titulo">
-                <h2>Título Afiche</h2>
-            </div>
-            <div class="container-afiche">
-                    <img
-                        src="https://th.bing.com/th/id/OIP.VHPkRI6R8VjjDURH33d6_wHaFj?rs=1&pid=ImgDetMain"
-                        alt="Preview"
-                    >
-            </div>
-        </article>
-        <article>
-            <div class="container-titulo">
-                <h2>Título Afiche</h2>
-            </div>
-            <div class="container-afiche">
-                    <img
-                        src="https://th.bing.com/th/id/OIP.VHPkRI6R8VjjDURH33d6_wHaFj?rs=1&pid=ImgDetMain"
-                        alt="Preview"
-                    >
-            </div>
-        </article>
-        <article>
-            <div class="container-titulo">
-                <h2>Título Afiche</h2>
-            </div>
-            <div class="container-afiche">
-                    <img
-                        src="https://th.bing.com/th/id/OIP.VHPkRI6R8VjjDURH33d6_wHaFj?rs=1&pid=ImgDetMain"
-                        alt="Preview"
-                    >
-            </div>
-        </article>
-        <article>
-            <div class="container-titulo">
-                <h2>Título Afiche</h2>
-            </div>
-            <div class="container-afiche">
-                    <img
-                        src="https://th.bing.com/th/id/OIP.VHPkRI6R8VjjDURH33d6_wHaFj?rs=1&pid=ImgDetMain"
-                        alt="Preview"
-                    >
-            </div>
-        </article>
-        <article>
-            <div class="container-titulo">
-                <h2>Título Afiche</h2>
-            </div>
-            <div class="container-afiche">
-                    <img
-                        src="https://th.bing.com/th/id/OIP.VHPkRI6R8VjjDURH33d6_wHaFj?rs=1&pid=ImgDetMain"
-                        alt="Preview"
-                    >
-            </div>
-        </article>
+        
+        {%endfor%}
     </div>
     <form class="filtrador">
         <input id="buscador" class="filtro" type="text" name="search" placeholder="Preferencias">
