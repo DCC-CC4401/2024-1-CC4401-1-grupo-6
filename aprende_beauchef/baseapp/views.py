@@ -14,7 +14,7 @@ def index(request):
 
     parámetro request Información relacionada a la solicitud que se realiza
     """
-    posters = Afiche.objects.all()
+    posters = Afiche.objects.all().order_by('-fecha_creacion')
     if len(posters) > 8:
         posters = posters[:8]
     else:
@@ -40,9 +40,7 @@ def login_view(request):
             login(request, user)
             return redirect("index")
         else:
-            return render(
-                request, "login.html", {"error": "Invalid username or password"}
-            )
+            return HttpResponse("Usuario o contraseña incorrectos")
 
 def logout_user(request):
     """
