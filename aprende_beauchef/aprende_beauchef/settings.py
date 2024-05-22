@@ -119,7 +119,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "/aprende_beauchef/baseapp/static/"
+STATIC_URL = "/static/"
 MEDIA_URL = "/aprende_beauchef/baseapp/uploads/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "baseapp/uploads")
 
