@@ -14,7 +14,7 @@ def index(request):
 
     parámetro request Información relacionada a la solicitud que se realiza
     """
-    posters = Afiche.objects.all().order_by('-fecha_creacion')
+    posters = Afiche.objects.all().order_by('-id')
     if len(posters) > 8:
         posters = posters[:8]
     else:
