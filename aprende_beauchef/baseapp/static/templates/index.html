@@ -1,26 +1,12 @@
-{%extends 'base.html'%}
+{%extends 'base_navbar.html'%}
 {%block stylesheets%}
-    <link rel="stylesheet"  type="text/css" href="static/css/index.css">
+    <link rel="stylesheet"  type="text/css" href="/static/css/index.css">
 {%endblock%}
 {%block title%}
     Aprende Beauchef
 {%endblock%}
 {%block content%}
-<nav id="nav-id" class="nav">
-    <ul>
-        {% if user.is_authenticated %}
-        <li id="publicar"><a href="/publicar">Publicar</a></li>
-        <li id="perfil"><a href="#">Ver Perfil</a></li>
-        <li id="cerrar"><a href="/logout">Cerrar sesión</a></li>
 
-        {% else %}
-        <li id="publicar"><a href="/register">Publicar</a></li>
-        <li id="registrar"><a href="/register">Registrate</a></li>
-        <li id="ingresar"><a href="/login">Ingresar</a></li>
-
-        {% endif %}
-    </ul>
-</nav>
 <p>En este sitio podrás encontrar clases de apoyo para tus ramos de Beauchef</p>
 
 <div class="content">

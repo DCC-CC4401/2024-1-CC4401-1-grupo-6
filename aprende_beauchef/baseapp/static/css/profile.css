@@ -1,0 +1,30 @@
+.rating {
+    font-size: 24px; /* Tamaño de las estrellas */
+    color: #ccc; /* Color de las estrellas vacías */
+}
+
+.star {
+    display: inline-block;
+}
+
+.empty::before {
+    content: '☆'; /* Carácter Unicode para estrella vacía */
+}
+
+.full::before {
+    content: '★'; /* Carácter Unicode para estrella llena */
+    color: gold; /* Color de las estrellas llenas */
+}
+
+.user-tittle {
+    display: flex;
+    align-items: center;
+}
+
+.user-profile {
+    margin-right: 2%;
+}
+
+.conf-button {
+    height: 2%;
+}

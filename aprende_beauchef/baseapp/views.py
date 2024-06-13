@@ -14,7 +14,7 @@ def index(request):
 
     parámetro request Información relacionada a la solicitud que se realiza
     """
-    posters = Afiche.objects.all().order_by('-fecha_creacion')
+    posters = Afiche.objects.all().order_by('-id')
     if len(posters) > 8:
         posters = posters[:8]
     else:
@@ -142,3 +142,18 @@ def register(request):
         student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
         student.save()
         return redirect("login")
+
+def profile_view(request):
+    """
+    
+    """
+    user=request.user
+    try:
+        tutor = Tutor.objects.get(usuario=user)
+        # Obtener todas las publicaciones de afiches de este tutor
+        publicaciones = Publica.objects.filter(dicta__tutor=tutor).select_related('afiche')
+        afiches = [publicacion.afiche for publicacion in publicaciones]
+    except Tutor.DoesNotExist:
+        tutor = None
+        afiches = []
+    return render(request, "profile.html", {'user': user, 'afiches': afiches})

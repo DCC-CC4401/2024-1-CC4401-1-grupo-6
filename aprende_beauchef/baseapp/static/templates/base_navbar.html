@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/webp" href="/static/images/logo_aprende_beauchef.webp">
+    {% block stylesheets %}
+    {% endblock %}
+    <title>{%block title%}Document{%endblock%}</title>
+</head>
+<body>
+    <nav id="nav-id" class="nav">
+        <ul>
+            <li id="logo"><a href="/"><img src="/static/images/logo_aprende_beauchef.webp" alt="logo" style="width:124px;height:124px"> </img></a></li>
+
+            {% if user.is_authenticated %}
+            <li id="publicar"><a href="/publicar">Publicar</a></li>
+            <li id="perfil"><a href="/profile">Ver Perfil</a></li>
+            <li id="cerrar"><a href="/logout">Cerrar sesión</a></li>
+    
+            {% else %}
+            <li id="publicar"><a href="/register">Publicar</a></li>
+            <li id="registrar"><a href="/register">Registrate</a></li>
+            <li id="ingresar"><a href="/login">Ingresar</a></li>
+    
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
