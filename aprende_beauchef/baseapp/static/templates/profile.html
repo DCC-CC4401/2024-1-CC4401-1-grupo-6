@@ -7,40 +7,47 @@
 {%endblock%}
 
 {%block content%}
-
-    <div class="user-tittle">
-        <h1 class="user-profile">Perfil de {{user.name}}</h1>
-        <button id="conf" class="conf-button">Configurar perfil</button>
-    </div>
-
-    <div class="rating">
-        <span class="star empty"></span>
-        <span class="star empty"></span>
-        <span class="star empty"></span>
-        <span class="star empty"></span>
-        <span class="star empty"></span>
-    </div>
-
-    <div class="user-info">
-        <ul>
-            <li id="nombre">Nombre: {{user.name}}</li>
-            <li id="username">Nombre de usuario: {{user.username}}</li>
-            <li id="email">Email: {{user.email}}</li>
-            <li id="password"><p>Contraseña: <span id="password-view">*****</span> <button id="showPassword">Ver contraseña</button></p></li>
-        </ul>
-    </div>
-
-    {%for poster in afiches%}
-        <article>
-            <div class = "container-titulo">
-                <h2>{{poster.nombre}}</h2>
+    <div class="profile-content">
+        <div class="user-tittle">
+            <h1 class="user-profile">Perfil de {{user.name}}</h1>
+            <button id="conf" class="conf-button">Configurar perfil</button>
+        </div>
+        <div class="rating-content">
+            <h3 class="afiches"> Rating</h3>
+            <div class="rating">
+                <span class="star empty"></span>
+                <span class="star empty"></span>
+                <span class="star empty"></span>
+                <span class="star empty"></span>
+                <span class="star empty"></span>
             </div>
-            <div class = "container-afiche">
-                <img src = "{{poster.url.url}}" alt="{{afiche.nombre}}" >
-            </div>    
-
-        </article>
+        </div>
         
-        {%endfor%}
+
+        <div class="user-info">
+            <ul>
+                <li id="nombre">Nombre: {{user.name}}</li>
+                <li id="username">Nombre de usuario: {{user.username}}</li>
+                <li id="email">Email: {{user.email}}</li>
+                <li id="password"><p>Contraseña: <span id="password-view">*****</span> <button id="showPassword">Ver contraseña</button></p></li>
+            </ul>
+        </div>
+        <h2 class="afiches"> Afiches </h2>
+        <div class="afiches">
+            {%for poster in afiches%}
+            <article>
+                <div class = "container-titulo">
+                    <h2>{{poster.nombre}}</h2>
+                </div>
+                <div class = "container-afiche">
+                    <img src = "{{poster.url.url}}" alt="{{afiche.nombre}}" >
+                </div>    
+            </article>
+            
+            {%endfor%}
+        </div>
+    
+    </div>
+    
 
 {%endblock%}
