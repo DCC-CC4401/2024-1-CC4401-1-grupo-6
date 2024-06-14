@@ -69,7 +69,6 @@ def publish(request):
         
         if afiche_form.is_valid() and publish_form.is_valid():
             course = publish_form.cleaned_data['courses']
-            print(course)
             price = publish_form.cleaned_data['price']
             modality = publish_form.cleaned_data['modality']
             phone = publish_form.cleaned_data['phone']

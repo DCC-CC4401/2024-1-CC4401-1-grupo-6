@@ -11,7 +11,7 @@
 
 .title {
     display: flex;
-    font-size: 300%;
+    font-size: 250%;
     color: #252EFF;
 }
 
@@ -20,6 +20,22 @@
     display: flex;
     flex-direction: column;
     width: 25%;
+}
+
+.input p{
+    margin-block-start: 2%;
+    margin-block-end: 2%;
+}
+
+.input input,
+.input select,
+.input textarea {
+    font-size: small; /* Tamaño de fuente del input */
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* Espacio inferior entre los inputs */
 }
 
 .buttons{
