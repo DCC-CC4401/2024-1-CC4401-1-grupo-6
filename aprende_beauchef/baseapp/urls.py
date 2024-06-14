@@ -10,6 +10,7 @@ urlpatterns = [
     path("publicar/", views.publish, name="publicar"),
     path("register/", views.register, name="register"),
     path("profile/", views.profile_view, name="profile"),
+    path("profile/edit/", views.profile_edit, name="profile_edit"),
 ]
 
 if settings.DEBUG:

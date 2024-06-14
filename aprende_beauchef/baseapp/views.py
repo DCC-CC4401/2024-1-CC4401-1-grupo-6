@@ -157,3 +157,17 @@ def profile_view(request):
         tutor = None
         afiches = []
     return render(request, "profile.html", {'user': user, 'afiches': afiches})
+
+def profile_edit(request):
+    """
+    
+    """
+    user=request.user
+    if request.method == "GET":
+        return render(request, "profile_config.html", {'user': user})
+    elif request.method == "POST":
+        data = request.POST
+        user.name = data.get("name")
+        user.email = data.get("email")
+        user.save()
+        return redirect(request, "profile.html", {'user': user})
