@@ -14,6 +14,12 @@ Publicar
 <div class="container-form">
     <form name="publish_form" id="publish_form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+
         <div class="input">  
             <h2 class="title"> Publicar </h2>
             
@@ -26,4 +32,8 @@ Publicar
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/publish.js' %}"> </script>
 {% endblock %}
