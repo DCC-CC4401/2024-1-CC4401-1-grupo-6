@@ -22,6 +22,7 @@ def index(request):
         posters = posters
     return render(request, "index.html", {'afiches': posters})
 
+
 def login_view(request):
     """
     Dependiendo el método, renderiza la página de acceso a la aplicación o permite el acceso.
@@ -43,6 +44,7 @@ def login_view(request):
         else:
             return HttpResponse("Usuario o contraseña incorrectos")
 
+
 def logout_user(request):
     """
     Cierra la sesión de un usuario autentificado en la aplicación
@@ -54,6 +56,7 @@ def logout_user(request):
     logout(request)
     return redirect("index")
 
+
 def publish(request):
     """
     Si el metodo de la request es de tipo GET, renderiza la página relacionada a la publicación de afiches
@@ -63,7 +66,12 @@ def publish(request):
     la procesa para ser guardada en la base de datos.
     Si el usuario ingreso mal algun campo se retorna un HttpResponse con un mensaje de error, de caso contrario redireccionamos a la página principal.
     """
-    if request.method == "POST":
+    if request.method == "GET":
+        afiche_form = AficheForm()
+        publish_form = PublishForm()
+        return render(request, "publicar.html", {"afiche_form": afiche_form, "publish_form": publish_form})
+    
+    elif request.method == "POST":
         afiche_form = AficheForm(request.POST, request.FILES)
         publish_form = PublishForm(request.POST)
         
@@ -87,32 +95,20 @@ def publish(request):
                 horario = Horario(dia_semana=disponibility, hora_inicio=time_init, hora_fin=time_end)
                 horario.save()
                 tutor.horario.add(horario)
-
-                subject = Materia.objects.get(nombre=course)
-                dictates = Dicta(tutor=tutor, materia=subject)    
-                dictates.save()
-                afiche = afiche_form.save()
-                publishes = Publica(dicta=dictates, afiche=afiche)
-                publishes.save()
-                
             else:
                 tutor = Tutor.objects.get(usuario=request.user)
-                subject = Materia.objects.get(nombre=course)
-                dictates = Dicta(tutor=tutor, materia=subject)    
-                dictates.save()
-                afiche = afiche_form.save()
-                publishes = Publica(dicta=dictates, afiche=afiche)
-                publishes.save()
+                
+            subject = Materia.objects.get(nombre=course)
+            dictates = Dicta(tutor=tutor, materia=subject)    
+            dictates.save()
+            afiche = afiche_form.save()
+            publishes = Publica(dicta=dictates, afiche=afiche)
+            publishes.save()
             
             return redirect('index')
         else:
             return HttpResponse("Error al publicar el afiche")
-    else:
-        afiche_form = AficheForm()
-        publish_form = PublishForm()
-        return render(request, "publicar.html", {"afiche_form": afiche_form, "publish_form": publish_form})
-
-
+    
 
 def register(request):
     """
