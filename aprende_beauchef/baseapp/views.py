@@ -142,3 +142,32 @@ def register(request):
         student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
         student.save()
         return redirect("login")
+
+def profile_view(request):
+    """
+    
+    """
+    user=request.user
+    try:
+        tutor = Tutor.objects.get(usuario=user)
+        # Obtener todas las publicaciones de afiches de este tutor
+        publicaciones = Publica.objects.filter(dicta__tutor=tutor).select_related('afiche')
+        afiches = [publicacion.afiche for publicacion in publicaciones]
+    except Tutor.DoesNotExist:
+        tutor = None
+        afiches = None
+    return render(request, "profile.html", {'user': user, 'afiches': afiches})
+
+def profile_edit(request):
+    """
+    
+    """
+    user=request.user
+    if request.method == "GET":
+        return render(request, "profile_config.html", {'user': user})
+    elif request.method == "POST":
+        data = request.POST
+        user.name = data.get("name")
+        user.email = data.get("email")
+        user.save()
+        return redirect(request, "profile.html", {'user': user})
