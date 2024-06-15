@@ -60,8 +60,9 @@ const validateHour = (hour) => {
 };
 
 const validateForm = () => {
+  let isValid = true;
   // get elements from DOM by using id's.
-  let poster = document.getElementById("id_url").value;
+  let poster = document.getElementById("id_url").files[0];
   let description = document.getElementById("id_descripcion").value;
   let name = document.getElementById("id_nombre").value;
   // let courses = document.getElementById("id_courses");
@@ -74,10 +75,9 @@ const validateForm = () => {
 
   // validation auxiliary variables and function.
   let invalidInputs = [];
-  let isValid = true;
   const setInvalidInput = (inputName) => {
     invalidInputs.push(inputName);
-    isValid &&= false;
+    isValid = false;
   };
 
   // validation logic
