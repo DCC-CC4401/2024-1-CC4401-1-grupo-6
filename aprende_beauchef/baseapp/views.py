@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
+from .forms import LoginForm
 import os
 
 
@@ -31,16 +32,19 @@ def login_view(request):
     parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
     """
     if request.method == "GET":
-        return render(request, "login.html")
+        form = LoginForm()
+        return render(request, "login.html", {'form': form})
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("index")
-        else:
-            return HttpResponse("Usuario o contraseña incorrectos")
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("index")
+            else:
+                return HttpResponse("Usuario o contraseña incorrectos")
 
 def logout_user(request):
     """
