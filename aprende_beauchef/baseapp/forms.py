@@ -7,5 +7,5 @@ class FilterForm(forms.Form):
     modality = forms.ChoiceField(choices=[('AMB', 'Ambas'),('pres', 'Presencial'), ('rem', 'Online')], label='Modalidad', required=False)
     disponibility = forms.ChoiceField(choices=[
         ('ALL', 'Todos') ,('LUN', 'Lunes'), ('MAR', 'Martes'), ('MIE', 'Miércoles'), 
-        ('JUE', 'Jueves'), ('VIE', 'Viernes'), ('SAB', 'Sábado'), ('DOM', 'Domingo')
+        ('JUE', 'Jueves'), ('VIE', 'Viernes'), ('SAB', 'Sábado'), ('DOM', 'Domingo')    
     ], label='Disponibilidad', required=False)
