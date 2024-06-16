@@ -52,7 +52,7 @@
     border: 2px solid #cc1eb5;
 }
 
-.afiches {
+.poster {
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
@@ -61,7 +61,7 @@
   gap: 1.5rem;
 }
 
-.afiches article {
+.poster article {
   width: 17rem;
   height: 23rem;
   cursor: pointer;
@@ -73,20 +73,20 @@
   border: 1px solid lightgray;
 }
 
-.container-titulo{
+.container-title{
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.afiches article a {
+.poster article a {
   display: inline-flex;
   color: var(--primary);
   text-decoration: none;
 }
 
 
-.afiches article h2 {
+.article h2 {
   margin: auto;
   margin-top: 7px;
   margin-bottom: 7px;
@@ -96,7 +96,7 @@
 }
 
 
-.afiches article img {
+.poster article img {
   max-width: 100%;
   transform-origin: center;
   transition: transform 0.4s ease-in-out;
@@ -108,24 +108,24 @@
   background: white;
 }
 
-.afiches figure {
+.poster figure {
   width: 100%;
   align-items: center;
   height: 13rem;
   overflow: hidden;
 }
 
-.afiches figure img {
+.poster figure img {
   height: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   object-fit: cover;
 }
 
-.afiches article:hover img {
+.poster article:hover img {
   transform: scale(1.5); 
 }
 
-.container-afiches{
+.container-poster{
   width: 100%;
 }

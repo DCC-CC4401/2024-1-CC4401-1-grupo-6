@@ -1,4 +1,4 @@
-{%extends 'base.html'%}
+{%extends 'base_navbar.html'%}
 {%block stylesheets%}
     <link rel="stylesheet"  type="text/css" href="static/css/index.css">
 {%endblock%}
@@ -6,67 +6,26 @@
     Aprende Beauchef
 {%endblock%}
 {%block content%}
-<nav id="nav-id" class="nav">
-    <ul>
-        {% if user.is_authenticated %}
-        <li id="publicar"><a href="/publicar">Publicar</a></li>
-        <li id="perfil"><a href="#">Ver Perfil</a></li>
-        <li id="cerrar"><a href="/logout">Cerrar sesión</a></li>
 
-        {% else %}
-        <li id="publicar"><a href="/register">Publicar</a></li>
-        <li id="registrar"><a href="/register">Registrate</a></li>
-        <li id="ingresar"><a href="/login">Ingresar</a></li>
-
-        {% endif %}
-    </ul>
-</nav>
 <p>En este sitio podrás encontrar clases de apoyo para tus ramos de Beauchef</p>
 
 <div class="content">
-    <div class="afiches">
+
+    <div class="poster">
         {%for poster in afiches%}
         <article>
-            <div class = "container-titulo">
+            <div class = "container-title">
                 <h2>{{poster.nombre}}</h2>
             </div>
-            <div class = "container-afiche">
-                <img src = "{{poster.url.url}}" alt="{{afiche.nombre}}" >
+            <div class = "container-poster">
+                <img src = "{{poster.url.url}}" alt="{{poster.nombre}}" >
             </div>    
-
-        </article>
-        
+        </article> 
         {%endfor%}
+
     </div>
     <form class="filtrador">
-        <input id="buscador" class="filtro" type="text" name="search" placeholder="Preferencias">
-        <button id="lupa" type="submit">Buscar</button>
-        <div id="precio" class="filtro">
-            <p class="precio">Filtrador de precio</p>
-            <input id="min" class="precio" type="number" name="min" placeholder="Precio Minimo">
-            <input id="max" class="precio" type="number" name="max" placeholder="Precio Maximo">
-        </div>
-        <div id="modalidad" class="filtro">
-            <p class="filtro">Modalidad</p>
-            <select id="modalidad" class="filtro" name="modalidad">
-                <option value="---">---</option>
-                <option value="presencial">Presencial</option>
-                <option value="online">Online</option>
-            </select>
-        </div>
-        <div id="dias" class="filtro">
-            <p class="disponivilidad">Disponibilidad</p>
-            <select id="dias" class="filtro" name="dias" multiple>
-                <option value="todos">Todos</option>
-                <option value="lunes">Lunes</option>
-                <option value="martes">Martes</option>
-                <option value="miercoles">Miercoles</option>
-                <option value="jueves">Jueves</option>
-                <option value="viernes">Viernes</option>
-                <option value="sabado">Sabado</option>
-                <option value="domingo">Domingo</option>
-            </select>
-        </div>
+        {{ filter_form.as_p }}
         <button id="filtrar" type="submit">Aplicar filtros</button>
     </form>
 </div>

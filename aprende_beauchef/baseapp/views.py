@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from .forms import FilterForm
 from django.http import HttpResponse
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
@@ -15,11 +16,12 @@ def index(request):
     parámetro request Información relacionada a la solicitud que se realiza
     """
     posters = Afiche.objects.all().order_by('-id')
+    filter_form = FilterForm(request.POST)
     if len(posters) > 8:
         posters = posters[:8]
     else:
         posters = posters
-    return render(request, "index.html", {'afiches': posters})
+    return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
 
 def login_view(request):
     """
