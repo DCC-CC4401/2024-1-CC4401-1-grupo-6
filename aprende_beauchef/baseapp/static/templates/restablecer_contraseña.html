@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{%block stylesheets%}
+    <link rel="stylesheet"  type="text/css" href="static/css/restablecer_contraseña.css">
+{%endblock%}
+{%block title%}
+    Restablecer Contraseña
+{%endblock%}
+{%block content%}
+    <div class="main-container">
+        <h1>Restablecer Contraseña</h1>
+        <p>Por favor, escribe tu correo electrónico</p>
+
+        <div class=" LoginRecoveryPassword_form_class">
+            <form name=" LoginRecoveryPassword_form" id="LoginRecoveryPassword_form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p}}
+                <div class="button-container">
+                    <button id="LoginRecoveryPassword_button" type="submit"> Recuperar </button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    
+
+{%endblock%}
