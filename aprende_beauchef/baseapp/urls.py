@@ -3,14 +3,31 @@ from baseapp import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     path("", views.index, name="index"),
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_user, name="logout"),
     path("publicar/", views.publish, name="publicar"),
     path("register/", views.register, name="register"),
-    path("restablecer_contraseña/", views.reset_password, name="restablecer_contraseña"),
-    path("nueva_contraseña/", views.new_password, name="nueva_contraseña"),
+    
+    # Restablecer Contraseña
+    # Usa las páginas nativas de Django con sus funcionalidades y luego renderiza el diseño 
+    # de la página en template_name
+    path('restablecer_contraseña/', auth_views.PasswordResetView.as_view(
+        template_name='restablecer_contraseña.html'),
+        name='password_reset'),
+    path('restablecer_contraseña_correo/', auth_views.PasswordResetDoneView.as_view(
+        template_name='restablecer_contraseña_listo.html'), 
+        name='password_reset_done'),
+    path('password_reset_confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(
+        template_name='restablecer_nueva_contraseña.html'), 
+        name='password_reset_confirm'),
+    path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
+        template_name='restablecer_contraseña_completo.html'), 
+        name='password_reset_complete'),
+  
 ]
 
 if settings.DEBUG:

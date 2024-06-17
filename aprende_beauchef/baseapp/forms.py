@@ -23,3 +23,4 @@ class LoginNewPassword(forms.Form):
     confirmPassword = forms.CharField(label="Confirmar contraseña", 
                                     widget=forms.PasswordInput(attrs={'class': 'password_input','id': 'password'}), 
                                     required=True, error_messages={'required': 'Este campo es obligatorio'})
+                                    
