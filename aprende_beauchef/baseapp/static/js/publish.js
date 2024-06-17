@@ -4,7 +4,7 @@ const validatePoster = (poster) => {
   // file type validation
   let typeValid = true;
 
-  // file.type should be imagine/<foo> or application/pdf
+  // file.type should be image/<foo> or application/pdf
   let fileFamily = poster.type.split("/")[0];
   typeValid &&= fileFamily == "image" || poster.type == "application/pdf";
 
@@ -25,14 +25,14 @@ const validateName = (name) => {
   let lengthValid = name.length >= 1 && name.length <= 200;
 
   //format validation
-  let re2 = /^[\w.\s]+$/; //Cualquier string
+  let re2 = /^[\w.\s]+$/; // Cualquier string
   let formatValid = re2.test(name);
   return formatValid && lengthValid;
 };
 
 const validatePrice = (price) => {
   if (!price) return false;
-  //lenght validation
+  //length validation
   let maxValue = 999999999;
 
   if (price > 0 && price <= maxValue) return true;
@@ -42,7 +42,7 @@ const validatePrice = (price) => {
 
 const validatePhoneNumber = (phoneNumber) => {
   if (!phoneNumber) return false;
-  //lenght validation
+  //length validation
   let minValue = 900000000;
   let maxValue = 999999999;
 
@@ -125,8 +125,27 @@ const validateForm = () => {
 
     // make validation prompt visible
     validationBox.hidden = false;
+    return false; // Form is not valid
   }
+
+  return true; // Form is valid
 };
 
 let submitBtn = document.getElementById("publish_button");
-submitBtn.addEventListener("click", validateForm);
+submitBtn.addEventListener("click", (event) => {
+  event.preventDefault(); // Prevent the form from submitting immediately
+  if (validateForm()) {
+    document.getElementById("val-box").hidden = true;
+    document.getElementById("confirmation-box").hidden = false;
+  }
+});
+
+let confirmBtn = document.getElementById("confirm_button");
+confirmBtn.addEventListener("click", () => {
+  document.getElementById("publish_form").submit(); // Submit the form if the user confirms
+});
+
+let cancelBtn = document.getElementById("cancel_button");
+cancelBtn.addEventListener("click", () => {
+  document.getElementById("confirmation-box").hidden = true;
+});
