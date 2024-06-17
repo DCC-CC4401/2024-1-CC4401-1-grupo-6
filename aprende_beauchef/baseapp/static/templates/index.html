@@ -24,9 +24,12 @@
         {%endfor%}
 
     </div>
-    <form class="filtrador">
+    <form class="filtrador" method="post">
+        {% csrf_token %}
         {{ filter_form.as_p }}
-        <button id="filtrar" type="submit">Aplicar filtros</button>
+        <div class="filtrar_button">
+            <button id="filtrar_button" type="submit">Aplicar filtros</button>
+        </div>
     </form>
 </div>
 

@@ -15,13 +15,40 @@ def index(request):
 
     parámetro request Información relacionada a la solicitud que se realiza
     """
-    posters = Afiche.objects.all().order_by('-id')
-    filter_form = FilterForm(request.POST)
-    if len(posters) > 8:
-        posters = posters[:8]
-    else:
-        posters = posters
-    return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
+    if request.method == "GET":
+        posters = Afiche.objects.all().order_by('-id')
+        filter_form = FilterForm(request.POST)
+        if len(posters) > 8:
+            posters = posters[:8]
+        else:
+            posters = posters
+        return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
+    
+    elif request.method == "POST":
+        # NO SE ESTA HACIENDO POST AL APRETAR APLICAR FILTRO, AUNQUE POR CONSOLA SE VE GET CON TOD_O LO QUE ME INTERESA
+        filter_form = FilterForm(request.POST)
+        if filter_form.is_valid():
+            search = filter_form.cleaned_data['search']
+            max_price = filter_form.cleaned_data['max_price']
+            min_price = filter_form.cleaned_data['min_price']
+            modality = filter_form.cleaned_data['modality']
+            disponibility = filter_form.cleaned_data['disponibility']
+            
+            user=request.user
+            try:
+                tutor = Tutor.objects.get(usuario=user)
+                # algo así para multiples filtros
+                # posters = Publica.objects.filter(dicta__materia__nombre=search, dicta__tutor__precio=max_price dicta__tutor__modalidad_preferida=modality).select_related('afiche')
+
+                # Obtener todas las publicaciones de afiches filtrado por precio
+                publicaciones = Publica.objects.filter(dicta__tutor=tutor, dicta__tutor__precio=max_price).select_related('afiche')
+                afiches = [publicacion.afiche for publicacion in publicaciones]
+            except Tutor.DoesNotExist:
+                tutor = None
+                afiches = None
+            return render(request, "index.html", {'filter_form': filter_form,'afiches': afiches})
+        else:
+            return HttpResponse("Error al filtrar los afiches")
 
 def login_view(request):
     """
