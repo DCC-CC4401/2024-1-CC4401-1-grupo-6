@@ -25,27 +25,26 @@ def index(request):
         return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
     
     elif request.method == "POST":
-        # NO SE ESTA HACIENDO POST AL APRETAR APLICAR FILTRO, AUNQUE POR CONSOLA SE VE GET CON TOD_O LO QUE ME INTERESA
         filter_form = FilterForm(request.POST)
         if filter_form.is_valid():
+            # Al menos para los precios es necesario tener valor por default, por eso el if else
             search = filter_form.cleaned_data['search']
-            max_price = filter_form.cleaned_data['max_price']
-            min_price = filter_form.cleaned_data['min_price']
+            max_price = filter_form.cleaned_data['max_price'] if filter_form.cleaned_data['max_price'] else 999999999
+            min_price = filter_form.cleaned_data['min_price'] if filter_form.cleaned_data['min_price'] else 0
             modality = filter_form.cleaned_data['modality']
             disponibility = filter_form.cleaned_data['disponibility']
             
-            user=request.user
-            try:
-                tutor = Tutor.objects.get(usuario=user)
-                # algo así para multiples filtros
-                # posters = Publica.objects.filter(dicta__materia__nombre=search, dicta__tutor__precio=max_price dicta__tutor__modalidad_preferida=modality).select_related('afiche')
+            # Buscar de esta forma depende de saber el tutor, es más tosco y requiere del try catch
+            # publicaciones = Publica.objects.filter(dicta__tutor=tutor, dicta__tutor__precio__lte=max_price).select_related('afiche')
 
-                # Obtener todas las publicaciones de afiches filtrado por precio
-                publicaciones = Publica.objects.filter(dicta__tutor=tutor, dicta__tutor__precio=max_price).select_related('afiche')
-                afiches = [publicacion.afiche for publicacion in publicaciones]
-            except Tutor.DoesNotExist:
-                tutor = None
-                afiches = None
+            # Obtener todas las publicaciones de afiches filtrado de acuerdo a los parametros
+            publicaciones = Afiche.objects.all().filter(
+                #nombre__icontains=search,
+                publica__dicta__tutor__precio__lte=max_price,
+                publica__dicta__tutor__precio__gte=min_price,
+                #publica__dicta__tutor__modalidad_preferida=modality
+            ).order_by('-id')
+            afiches = [publicacion for publicacion in publicaciones]
             return render(request, "index.html", {'filter_form': filter_form,'afiches': afiches})
         else:
             return HttpResponse("Error al filtrar los afiches")
