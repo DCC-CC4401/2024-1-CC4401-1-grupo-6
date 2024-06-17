@@ -1,12 +1,12 @@
 {%extends 'base_navbar.html'%}
+{% load static %}
 {%block stylesheets%}
-    <link rel="stylesheet"  type="text/css" href="static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 {%endblock%}
 {%block title%}
     Aprende Beauchef
 {%endblock%}
 {%block content%}
-
 <p>En este sitio podrás encontrar clases de apoyo para tus ramos de Beauchef</p>
 
 <div class="content">
