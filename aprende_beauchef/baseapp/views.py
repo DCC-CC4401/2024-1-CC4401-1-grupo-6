@@ -150,3 +150,23 @@ def register(request):
             student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
             student.save()
             return redirect("login")
+
+def reset_password(request):
+    """
+    Renderiza la página de restablecimiento de contraseña.
+    Usa el método render que construye la plantilla restablecer_contraseña
+
+    parámetro request Información relacionada a la solicitud que se realiza
+    """
+    recovery_password_form = LoginRecoveryPassword()
+    return render(request, "restablecer_contraseña.html", {'form': recovery_password_form})
+
+def new_password(request):
+    """
+    Renderiza la página de nueva contraseña.
+    Usa el método render que construye la plantilla nueva_contraseña
+
+    parámetro request Información relacionada a la solicitud que se realiza
+    """
+    new_password_form = LoginNewPassword()
+    return render(request, "nueva_contraseña.html", {'form': new_password_form})
