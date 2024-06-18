@@ -2,7 +2,11 @@ from django import forms
 from .models import Materia, Afiche
 
 # Login Form #
-
+class LoginForm(forms.Form):
+    username = forms.CharField(label="Nombre de usuario", max_length=25,
+                            widget=forms.TextInput(attrs={'class': 'username_input','id': 'username'}), required=True, error_messages={'required': 'Este campo es obligatorio'})
+    password = forms.CharField(label="Contraseña", 
+                            widget=forms.PasswordInput(attrs={'class': 'password_input','id': 'password'}), required=True, error_messages={'required': 'Este campo es obligatorio'})
 
 # Register Form #
 

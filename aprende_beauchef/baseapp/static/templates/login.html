@@ -3,7 +3,7 @@
 Iniciar sesión
 {%endblock%}
 {%block stylesheets%}
-<link rel="stylesheet"  type="text/css" href="/static/css/login.css">
+<link rel="stylesheet" type="text/css" href="/static/css/login.css">
 {%endblock%}
 {%block content%}
 <div class="main-container">
@@ -15,21 +15,15 @@ Iniciar sesión
     <div class="login_form_class">
         <form name="login_form" id="login_form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="username_input">
-                <label for="username"> Nombre de Usuario: </label> <br>
-                <input type="text" id="username" name="username">
-            </div>
-
-            <div class="password_input">
-                <label for="password"> Contraseña: </label> <br>
-                <input type="password" id="password" name="password">
-            </div>
+            {{ form.as_p}}
             <div class="button-container">
                 <button id="login_button" type="submit"> Iniciar sesión </button>
-                <button type="button" class="NotAccount" id="NotAccount" onclick="location.href = 'http://127.0.0.1:8000/register'"> No tengo cuenta </button> <br>
-                <button type="button" class="backToIndex" id="backToIndex" onclick="location.href = 'http://127.0.0.1:8000/'" > Volver </button> <br>
+                <button type="button" class="NotAccount" id="NotAccount"
+                    onclick="location.href = 'http://127.0.0.1:8000/register'"> No tengo cuenta </button> <br>
+                <button type="button" class="backToIndex" id="backToIndex"
+                    onclick="location.href = 'http://127.0.0.1:8000/'"> Volver </button> <br>
             </div>
-            
+
         </form>
     </div>
 </div>
