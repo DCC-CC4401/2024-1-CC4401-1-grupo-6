@@ -122,3 +122,63 @@ class FilterForm(forms.Form):
         label="Disponibilidad",
         required=False,
     )
+
+# Register form
+
+class RegisterForm(forms.Form):
+    name = forms.CharField(
+        label="Nombre",
+        max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Nombre Apellido",
+                "class": "name_input",
+                "id": "name",
+            }
+        ),
+        required=True,
+    )
+    username = forms.CharField(
+        label="Nombre de usuario",
+        max_length=20,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Nombre de usuario",
+                "class": "username_input",
+                "id": "username",
+            }
+        ),
+        required=True,
+    )
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "xxxxx@xxxx.xx",
+                "class": "email_input",
+                "id": "email",
+            }
+        ),
+    )
+    password = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Contraseña",
+                "class": "password_input",
+                "id": "password",
+            }
+        ),
+        required=True,
+    )
+    password_confirm = forms.CharField(
+        label="Confirmar contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Confirmar contraseña",
+                "class": "password2_input",
+                "id": "password2",
+            }
+        ),
+        required=True,
+    )

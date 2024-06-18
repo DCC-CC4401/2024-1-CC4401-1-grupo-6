@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import FilterForm
 from django.http import HttpResponse
-from .forms import PublishForm, AficheForm
+from .forms import PublishForm, AficheForm, RegisterForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
 import os
@@ -124,16 +124,26 @@ def register(request):
 
     """
     if request.method == "GET":
-        return render(request, "register.html")
+        register_form = RegisterForm()
+        return render(request, "register.html", {"register_form": register_form})
     elif request.method == "POST":
-        data = request.POST
-        user = Usuario(
-            username = data.get("username"),
-            name = data.get("name"),
-            email = data.get("email"),
-        )
-        user.set_password(data.get("password"))
-        user.save()
-        student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
-        student.save()
-        return redirect("login")
+        register_form = RegisterForm(request.POST)
+        
+        if register_form.is_valid():
+            name = register_form.cleaned_data['name']
+            username = register_form.cleaned_data['username']
+            email = register_form.cleaned_data['email']
+            user = Usuario(
+                name = name,
+                username = username,
+                email = email,
+            )
+            password = register_form.cleaned_data['password']
+            password_confirm = register_form.cleaned_data['password_confirm']
+            if password != password_confirm:
+                return HttpResponse("Las contraseñas no coinciden")
+            user.set_password(password)
+            user.save()
+            student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
+            student.save()
+            return redirect("login")
