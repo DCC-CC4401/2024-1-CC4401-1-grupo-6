@@ -1,10 +1,10 @@
 {%extends 'base_navbar.html'%}
 {% load static %}
 {%block stylesheets%}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 {%endblock%}
 {%block title%}
-    Aprende Beauchef
+Aprende Beauchef
 {%endblock%}
 {%block content%}
 <p>En este sitio podrás encontrar clases de apoyo para tus ramos de Beauchef</p>
@@ -14,13 +14,13 @@
     <div class="poster">
         {%for poster in afiches%}
         <article>
-            <div class = "container-title">
+            <div class="container-title">
                 <h2>{{poster.nombre}}</h2>
             </div>
-            <div class = "container-poster">
-                <img src = "{{poster.url.url}}" alt="{{poster.nombre}}" >
-            </div>    
-        </article> 
+            <div class="container-poster">
+                <img src="{{poster.url.url}}" alt="{{poster.nombre}}">
+            </div>
+        </article>
         {%endfor%}
 
     </div>

@@ -29,6 +29,8 @@ urlpatterns = [
         template_name='restablecer_contraseña_completo.html'), 
         name='password_reset_complete'),
   
+    path("profile/", views.profile_view, name="profile"),
+    path("profile/edit/", views.profile_edit, name="profile_edit"),
 ]
 
 if settings.DEBUG:

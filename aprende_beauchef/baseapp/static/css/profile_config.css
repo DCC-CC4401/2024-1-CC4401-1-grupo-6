@@ -1,0 +1,32 @@
+.container-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin-left: 3%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+}
+
+.title {
+    display: flex;
+    font-size: 300%;
+    color: #252EFF;
+}
+
+/* input */
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+    gap: 2%;
+    justify-content: center;
+    align-items: center;
+}

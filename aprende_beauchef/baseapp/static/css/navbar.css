@@ -1,14 +1,18 @@
 .nav {
-  background-color: #5bc0de; /* Color de fondo de la barra de navegación (celeste) */
+  background-color: #5bc0de;
+  /* Color de fondo de la barra de navegación (celeste) */
   margin: 0%;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Espacio entre elementos */
-  padding: 0 10px; /* Espacio horizontal alrededor del navbar */
+  justify-content: space-between;
+  /* Espacio entre elementos */
+  padding: 0 10px;
+  /* Espacio horizontal alrededor del navbar */
 }
 
 .nav ul {
-  list-style: none; /* Quitamos los puntos de la lista */
+  list-style: none;
+  /* Quitamos los puntos de la lista */
   display: flex;
   align-items: center;
   padding: 0;
@@ -19,19 +23,23 @@
 .nav li {
   display: flex;
   align-items: center;
-  padding: 0 15px; /* Espacio horizontal entre los elementos */
+  padding: 0 15px;
+  /* Espacio horizontal entre los elementos */
 }
 
 .nav a {
-  color: #fff; /* Color del texto (blanco) */
-  text-decoration: none; /* Quitamos subrayado */
+  color: #fff;
+  /* Color del texto (blanco) */
+  text-decoration: none;
+  /* Quitamos subrayado */
   font-size: 200%;
   display: flex;
   align-items: center;
-  height: 100%; /* Para asegurarnos que ocupa toda la altura del navbar */
+  height: 100%;
+  /* Para asegurarnos que ocupa toda la altura del navbar */
 }
 
 #logo img {
-  width:85px;
-  height:85px;
+  width: 85px;
+  height: 85px;
 }
