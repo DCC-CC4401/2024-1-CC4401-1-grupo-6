@@ -34,6 +34,7 @@ def index(request):
             min_price = filter_form.cleaned_data['min_price'] if filter_form.cleaned_data['min_price'] else 0
             modality = filter_form.cleaned_data['modality']
             disponibility = filter_form.cleaned_data['disponibility']
+            alldisponibility = filter_form.cleaned_data.get('disponibility')
             
             # Buscar de esta forma depende de saber el tutor, es más tosco y requiere del try catch
             # publicaciones = Publica.objects.filter(dicta__tutor=tutor, dicta__tutor__precio__lte=max_price).select_related('afiche')
@@ -45,6 +46,8 @@ def index(request):
                 publica__dicta__tutor__precio__gte=min_price,
                 #publica__dicta__tutor__modalidad_preferida=modality
             ).order_by('-id')
+            if alldisponibility != 'ALL':
+                publicaciones = publicaciones.filter(publica__dicta__tutor__horario__dia_semana=disponibility).order_by('-id')
             afiches = [publicacion for publicacion in publicaciones]
             return render(request, "index.html", {'filter_form': filter_form,'afiches': afiches})
         else:
