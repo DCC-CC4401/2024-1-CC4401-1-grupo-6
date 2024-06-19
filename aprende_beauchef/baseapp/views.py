@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
+from .forms import FilterForm
 from django.http import HttpResponse
+from .forms import PublishForm, AficheForm, RegisterForm, LoginForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
 import os
@@ -15,11 +17,13 @@ def index(request):
     parámetro request Información relacionada a la solicitud que se realiza
     """
     posters = Afiche.objects.all().order_by('-id')
+    filter_form = FilterForm(request.POST)
     if len(posters) > 8:
         posters = posters[:8]
     else:
         posters = posters
-    return render(request, "index.html", {'afiches': posters})
+    return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
+
 
 def login_view(request):
     """
@@ -31,16 +35,20 @@ def login_view(request):
     parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
     """
     if request.method == "GET":
-        return render(request, "login.html")
+        form = LoginForm()
+        return render(request, "login.html", {'form': form})
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("index")
-        else:
-            return HttpResponse("Usuario o contraseña incorrectos")
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("index")
+            else:
+                return HttpResponse("Usuario o contraseña incorrectos")
+
 
 def logout_user(request):
     """
@@ -53,6 +61,7 @@ def logout_user(request):
     logout(request)
     return redirect("index")
 
+
 def publish(request):
     """
     Si el metodo de la request es de tipo GET, renderiza la página relacionada a la publicación de afiches
@@ -63,59 +72,48 @@ def publish(request):
     Si el usuario ingreso mal algun campo se retorna un HttpResponse con un mensaje de error, de caso contrario redireccionamos a la página principal.
     """
     if request.method == "GET":
-        courses = Materia.objects.all()
-        return render(request, "publicar.html", {"courses": courses})
-    else:
-        my_poster = request.FILES.get("my_poster")
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        course = request.POST.get("courses")
-        price = request.POST.get("price")
-        modality = request.POST.get("modality")
-        phone = request.POST.get("phone")
-        modality = request.POST.get("modality")
-        phone = request.POST.get("phone")
-        disponibility = request.POST.get("disponibility")
-        time_init = request.POST.get("time-init")
-        time_end = request.POST.get("time-end")
-
-
-        if name is not None:
-            poster = Afiche(url = my_poster, descripcion = description, nombre = name)
-            poster.save()
+        afiche_form = AficheForm()
+        publish_form = PublishForm()
+        return render(request, "publicar.html", {"afiche_form": afiche_form, "publish_form": publish_form})
+    
+    elif request.method == "POST":
+        afiche_form = AficheForm(request.POST, request.FILES)
+        publish_form = PublishForm(request.POST)
+        
+        if afiche_form.is_valid() and publish_form.is_valid():
+            course = publish_form.cleaned_data['courses']
+            price = publish_form.cleaned_data['price']
+            modality = publish_form.cleaned_data['modality']
+            phone = publish_form.cleaned_data['phone']
+            disponibility = publish_form.cleaned_data['disponibility']
+            time_init = publish_form.cleaned_data['time_init']
+            time_end = publish_form.cleaned_data['time_end']
 
             if not Tutor.objects.filter(usuario=request.user).exists():
                 tutor = Tutor(
-                    telefono = phone,
-                    precio = price, 
-                    modalidad_preferida = modality, 
-                    usuario = request.user
-                    )
+                    telefono=phone,
+                    precio=price, 
+                    modalidad_preferida=modality, 
+                    usuario=request.user
+                )
                 tutor.save()
-                print("acabo de guardar el tutor")
-                horario = Horario(dia_semana = disponibility, hora_inicio = time_init, hora_fin = time_end)
+                horario = Horario(dia_semana=disponibility, hora_inicio=time_init, hora_fin=time_end)
                 horario.save()
-                tutor = Tutor.objects.get(usuario=request.user)
                 tutor.horario.add(horario)
-
-                subject = Materia.objects.get(codigo_curso=course)
-                dictates = Dicta(tutor = tutor, materia = subject)    
-                dictates.save()
-                publishes = Publica(dicta = dictates, afiche = poster)
-                publishes.save()
             else:
                 tutor = Tutor.objects.get(usuario=request.user)
-                subject = Materia.objects.get(codigo_curso=course)
-                dictates = Dicta(tutor = tutor, materia = subject)    
-                dictates.save()
-                publishes = Publica(dicta = dictates, afiche = poster)
-                publishes.save()
-
+                
+            subject = Materia.objects.get(nombre=course)
+            dictates = Dicta(tutor=tutor, materia=subject)    
+            dictates.save()
+            afiche = afiche_form.save()
+            publishes = Publica(dicta=dictates, afiche=afiche)
+            publishes.save()
+            
             return redirect('index')
         else:
             return HttpResponse("Error al publicar el afiche")
-
-
+    
 
 def register(request):
     """
@@ -129,19 +127,29 @@ def register(request):
 
     """
     if request.method == "GET":
-        return render(request, "register.html")
+        register_form = RegisterForm()
+        return render(request, "register.html", {"register_form": register_form})
     elif request.method == "POST":
-        data = request.POST
-        user = Usuario(
-            username = data.get("username"),
-            name = data.get("name"),
-            email = data.get("email"),
-        )
-        user.set_password(data.get("password"))
-        user.save()
-        student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
-        student.save()
-        return redirect("login")
+        register_form = RegisterForm(request.POST)
+        
+        if register_form.is_valid():
+            name = register_form.cleaned_data['name']
+            username = register_form.cleaned_data['username']
+            email = register_form.cleaned_data['email']
+            user = Usuario(
+                name = name,
+                username = username,
+                email = email,
+            )
+            password = register_form.cleaned_data['password']
+            password_confirm = register_form.cleaned_data['password_confirm']
+            if password != password_confirm:
+                return HttpResponse("Las contraseñas no coinciden")
+            user.set_password(password)
+            user.save()
+            student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
+            student.save()
+            return redirect("login")
 
 
 def mostrar_afiche(request):
@@ -157,3 +165,23 @@ def mostrar_afiche(request):
     if request.method == "GET":
         #Quizás haya que pasarle el id del afiche a mostrar
         return render(request, "mostrarAfiche.html")
+
+def reset_password(request):
+    """
+    Renderiza la página de restablecimiento de contraseña.
+    Usa el método render que construye la plantilla restablecer_contraseña
+
+    parámetro request Información relacionada a la solicitud que se realiza
+    """
+    recovery_password_form = LoginRecoveryPassword()
+    return render(request, "restablecer_contraseña.html", {'form': recovery_password_form})
+
+def new_password(request):
+    """
+    Renderiza la página de nueva contraseña.
+    Usa el método render que construye la plantilla nueva_contraseña
+
+    parámetro request Información relacionada a la solicitud que se realiza
+    """
+    new_password_form = LoginNewPassword()
+    return render(request, "nueva_contraseña.html", {'form': new_password_form})

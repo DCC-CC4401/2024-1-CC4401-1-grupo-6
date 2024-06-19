@@ -90,3 +90,17 @@
 #backToIndex:hover {
     background-color: #0056b3; /* Color al hacer hover */
 }
+/* Botón de  */
+#resetPassword {
+    background-color: #007BFF; /* Color de fondo azul */
+    border: none; /* Sin bordes */
+    color: white; /* Texto en blanco */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Tamaño del texto */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+#resetPassword:hover {
+    background-color: #0056b3; /* Color al hacer hover */
+}
