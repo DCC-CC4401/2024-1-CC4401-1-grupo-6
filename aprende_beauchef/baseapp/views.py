@@ -16,13 +16,39 @@ def index(request):
 
     parámetro request Información relacionada a la solicitud que se realiza
     """
-    posters = Afiche.objects.all().order_by('-id')
-    filter_form = FilterForm(request.POST)
-    if len(posters) > 8:
-        posters = posters[:8]
-    else:
-        posters = posters
-    return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
+    if request.method == "GET":
+        posters = Afiche.objects.all().order_by('-id')
+        filter_form = FilterForm(request.POST)
+        if len(posters) > 8:
+            posters = posters[:8]
+        else:
+            posters = posters
+        return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
+    
+    elif request.method == "POST":
+        filter_form = FilterForm(request.POST)
+        if filter_form.is_valid():
+            # Al menos para los precios es necesario tener valor por default, por eso el if else
+            search = filter_form.cleaned_data['search']
+            max_price = filter_form.cleaned_data['max_price'] if filter_form.cleaned_data['max_price'] else 999999999
+            min_price = filter_form.cleaned_data['min_price'] if filter_form.cleaned_data['min_price'] else 0
+            modality = filter_form.cleaned_data['modality']
+            disponibility = filter_form.cleaned_data['disponibility']
+            
+            # Buscar de esta forma depende de saber el tutor, es más tosco y requiere del try catch
+            # publicaciones = Publica.objects.filter(dicta__tutor=tutor, dicta__tutor__precio__lte=max_price).select_related('afiche')
+
+            # Obtener todas las publicaciones de afiches filtrado de acuerdo a los parametros
+            publicaciones = Afiche.objects.all().filter(
+                #nombre__icontains=search,
+                publica__dicta__tutor__precio__lte=max_price,
+                publica__dicta__tutor__precio__gte=min_price,
+                #publica__dicta__tutor__modalidad_preferida=modality
+            ).order_by('-id')
+            afiches = [publicacion for publicacion in publicaciones]
+            return render(request, "index.html", {'filter_form': filter_form,'afiches': afiches})
+        else:
+            return HttpResponse("Error al filtrar los afiches")
 
 
 def login_view(request):

@@ -24,9 +24,15 @@
         {%endfor%}
 
     </div>
-    <form class="filtrador">
-        {{ filter_form.as_p }}
-        <button id="filtrar" type="submit">Aplicar filtros</button>
+    <form class="filters" method="POST">
+        {% csrf_token %}
+        <div class="filters-container">
+            <h3>Filtrar publicaciones</h3>
+            {{ filter_form.as_p }}
+        </div>
+        <div class="filters_button">
+            <button id="filters_button" type="submit">Aplicar filtros</button>
+        </div>
     </form>
 </div>
 
