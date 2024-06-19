@@ -211,5 +211,5 @@ class Publica(models.Model):
     # Quienes relaciona
     dicta = models.ForeignKey(Dicta, on_delete=models.CASCADE)
     afiche = models.ForeignKey(Afiche, on_delete=models.CASCADE)
-
+    
     fecha = models.DateTimeField(auto_now_add=True)

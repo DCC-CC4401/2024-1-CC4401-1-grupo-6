@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import FilterForm
 from django.http import HttpResponse
@@ -150,6 +150,21 @@ def register(request):
             student = Estudiante(usuario=user, tutorias_cursadas="[]", cursos_de_interes="[]")
             student.save()
             return redirect("login")
+
+
+def mostrar_afiche(request):
+    """
+    Renderiza la página de un afiche más detallado
+    Si la solicitud es un GET, construye la plantilla mostrarAfiche.
+    Usa el método render que construye la plantilla mostrarAfciche
+    Como requiere información de la base de datos, accede para extraer afiches y mostrarlos
+
+    parámetro request Información relacionada a la solicitud que se realiza
+    """
+    
+    if request.method == "GET":
+        #Quizás haya que pasarle el id del afiche a mostrar
+        return render(request, "mostrarAfiche.html")
 
 def reset_password(request):
     """
