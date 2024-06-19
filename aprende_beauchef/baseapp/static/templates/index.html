@@ -1,59 +1,38 @@
 {%extends 'base_navbar.html'%}
+{% load static %}
 {%block stylesheets%}
-    <link rel="stylesheet"  type="text/css" href="/static/css/index.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 {%endblock%}
 {%block title%}
-    Aprende Beauchef
+Aprende Beauchef
 {%endblock%}
 {%block content%}
-
 <p>En este sitio podrás encontrar clases de apoyo para tus ramos de Beauchef</p>
 
 <div class="content">
-    <div class="afiches">
+
+    <div class="poster">
         {%for poster in afiches%}
         <article>
-            <div class = "container-titulo">
+            <div class="container-title">
                 <h2>{{poster.nombre}}</h2>
             </div>
-            <div class = "container-afiche">
-                <img src = "{{poster.url.url}}" alt="{{afiche.nombre}}" >
-            </div>    
-
+            <div class="container-poster">
+                <img src="{{poster.url.url}}" alt="{{poster.nombre}}">
+            </div>
         </article>
-        
         {%endfor%}
+
     </div>
-    <form class="filtrador">
-        <input id="buscador" class="filtro" type="text" name="search" placeholder="Preferencias">
-        <button id="lupa" type="submit">Buscar</button>
-        <div id="precio" class="filtro">
-            <p class="precio">Filtrador de precio</p>
-            <input id="min" class="precio" type="number" name="min" placeholder="Precio Minimo">
-            <input id="max" class="precio" type="number" name="max" placeholder="Precio Maximo">
+    <form class="filters" method="POST">
+        {% csrf_token %}
+        <div class="filters-container">
+            <h3>Filtrar publicaciones</h3>
+            {{ filter_form.as_p }}
         </div>
-        <div id="modalidad" class="filtro">
-            <p class="filtro">Modalidad</p>
-            <select id="modalidad" class="filtro" name="modalidad">
-                <option value="---">---</option>
-                <option value="presencial">Presencial</option>
-                <option value="online">Online</option>
-            </select>
+        <div class="filters_button">
+            <button id="filters_button" type="submit">Aplicar filtros</button>
         </div>
-        <div id="dias" class="filtro">
-            <p class="disponivilidad">Disponibilidad</p>
-            <select id="dias" class="filtro" name="dias" multiple>
-                <option value="todos">Todos</option>
-                <option value="lunes">Lunes</option>
-                <option value="martes">Martes</option>
-                <option value="miercoles">Miercoles</option>
-                <option value="jueves">Jueves</option>
-                <option value="viernes">Viernes</option>
-                <option value="sabado">Sabado</option>
-                <option value="domingo">Domingo</option>
-            </select>
-        </div>
-        <button id="filtrar" type="submit">Aplicar filtros</button>
     </form>
 </div>
 
