@@ -1,10 +1,13 @@
 const validateName = (name) => {
     if (!name) return false;
+
     //length validation
     let lengthValid = name.length >= 1 && name.length <= 50;
+
     //format validation
-    let re2 = /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+(?:\s(de|del|de la)\s[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+|(?:\s[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+))+$/;// Cualquier string que incluya tildes y otros caracteres especiales
+    let re2 = /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/; // Cualquier string que incluya tildes y otros caracteres especiales
     let formatValid = re2.test(name);
+
     return formatValid && lengthValid;
 };
 
