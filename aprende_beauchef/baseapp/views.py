@@ -69,14 +69,14 @@ def login_view(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect("index")
             else:
-                return HttpResponse("Usuario o contraseña incorrectos")
+                return HttpResponse("Usuario o contraseña incorrectos") #cambiar esto
 
 
 def logout_user(request):
