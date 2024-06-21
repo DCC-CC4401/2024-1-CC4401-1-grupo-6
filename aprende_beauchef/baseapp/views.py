@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from .forms import PublishForm, AficheForm, RegisterForm, LoginForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
+from django.http import JsonResponse
 import os
 
 
@@ -24,7 +25,7 @@ def index(request):
         else:
             posters = posters
         return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
-    
+        
     elif request.method == "POST":
         filter_form = FilterForm(request.POST)
         if filter_form.is_valid():
@@ -36,22 +37,41 @@ def index(request):
             disponibility = filter_form.cleaned_data['disponibility']
             alldisponibility = filter_form.cleaned_data.get('disponibility')
             
-            # Buscar de esta forma depende de saber el tutor, es más tosco y requiere del try catch
-            # publicaciones = Publica.objects.filter(dicta__tutor=tutor, dicta__tutor__precio__lte=max_price).select_related('afiche')
+            # Obtener todas las publicaciones de afiches
+            publicaciones = Afiche.objects.all().order_by('-id')
 
-            # Obtener todas las publicaciones de afiches filtrado de acuerdo a los parametros
-            publicaciones = Afiche.objects.all().filter(
-                #nombre__icontains=search,
-                publica__dicta__tutor__precio__lte=max_price,
-                publica__dicta__tutor__precio__gte=min_price,
-                #publica__dicta__tutor__modalidad_preferida=modality
-            ).order_by('-id')
+            # Aplicar los filtros opcionales
+            if search:
+                publicaciones = publicaciones.filter(publica__dicta__materia__nombre__icontains=search).order_by('-id')
+            if max_price:
+                publicaciones = publicaciones.filter(publica__dicta__tutor__precio__lte=max_price).order_by('-id')
+            if min_price:
+                publicaciones = publicaciones.filter(publica__dicta__tutor__precio__gte=min_price).order_by('-id')
             if alldisponibility != 'ALL':
                 publicaciones = publicaciones.filter(publica__dicta__tutor__horario__dia_semana=disponibility).order_by('-id')
+            
+            #La idea es que sigan filtrando de esta forma, es decir, reasignando publicaciones
+            #con los filtros para modalidad.
+
             afiches = [publicacion for publicacion in publicaciones]
             return render(request, "index.html", {'filter_form': filter_form,'afiches': afiches})
         else:
             return HttpResponse("Error al filtrar los afiches")
+        
+
+def search_courses(request):
+    """
+    Vista que transforma la búsqueda de cursos en tiempo real en una lista de sugerencias JSON
+    """
+    query = request.GET.get('search', '')
+    courses = Materia.objects.filter(nombre__icontains=query).order_by('nombre')
+    results = []
+    for course in courses:
+        results.append({
+            'codigo_curso': course.codigo_curso,
+            'nombre': course.nombre
+        })
+    return JsonResponse(results, safe=False)
 
 
 def login_view(request):
