@@ -201,7 +201,7 @@ def register(request):
             return redirect("login")
 
 
-def mostrar_afiche(request):
+def mostrar_afiche(request, posterID):
     """
     Renderiza la página de un afiche más detallado
     Si la solicitud es un GET, construye la plantilla mostrarAfiche.
@@ -212,8 +212,35 @@ def mostrar_afiche(request):
     """
     
     if request.method == "GET":
-        #Quizás haya que pasarle el id del afiche a mostrar
-        return render(request, "mostrarAfiche.html")
+        afiche = Afiche.objects.filter(id=posterID).first()
+        publicacion = Publica.objects.filter(afiche=afiche).first()
+
+        if(afiche.descripcion == ''):
+            descripcion = afiche.nombre
+        else:
+            descripcion = afiche.descripcion
+
+        if(publicacion.dicta.tutor.modalidad_preferida == 'rem'):
+            modalidad = 'Remota'
+        elif(publicacion.dicta.tutor.modalidad_preferida == 'pres'):
+            modalidad = 'Presencial'
+        else:
+            modalidad = 'Remota o Presencial'
+
+        #disponibilidad no lo pudo obtener
+        
+        data ={
+            'titulo': afiche.nombre,
+            'imagen': afiche.url.url,
+            'descripcion': descripcion,
+            'tutor': publicacion.dicta.tutor.usuario.name,
+            'telefono': publicacion.dicta.tutor.telefono,
+            'precio': publicacion.dicta.tutor.precio,
+            'modalidad': modalidad,
+            'disponibilidad': 'A coordinar',
+        }
+        
+        return render(request, "mostrarAfiche.html", data)
 
 def reset_password(request):
     """

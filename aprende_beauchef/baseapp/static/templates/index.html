@@ -12,10 +12,12 @@ Aprende Beauchef
 <div class="content">
 
     <div class="poster">
-        {%for poster in afiches%} 
+        {%for poster in afiches%}
         <article>
             <div class="container-title">
-                <h2>{{poster.nombre}}</h2>
+                <a href="{% url 'mostrarAfiche' posterID=poster.id %}">
+                    <h2>{{poster.nombre}}</h2>
+                </a>
             </div>
             <div class="container-poster">
                 <img src="{{poster.url.url}}" alt="{{poster.nombre}}">

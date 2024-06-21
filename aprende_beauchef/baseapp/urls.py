@@ -12,7 +12,7 @@ urlpatterns = [
     path("logout/", views.logout_user, name="logout"),
     path("publicar/", views.publish, name="publicar"),
     path("register/", views.register, name="register"),
-    path("afiche/", views.mostrar_afiche, name="mostrarAfiche"),
+    path("afiche/<int:posterID>/", views.mostrar_afiche, name="mostrarAfiche"),
     
     # Restablecer Contraseña
     # Usa las páginas nativas de Django con sus funcionalidades y luego renderiza el diseño 

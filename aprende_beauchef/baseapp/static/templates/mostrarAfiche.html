@@ -8,25 +8,18 @@ Mostrar Afiche
 {%block content%}
 <div class="container-page">
     <div class="container-main-information">
-        <h1 class="title">Título de Afiche</h1>
-        <h2 class="tutor-name">Nombre del Tutor</h2>
+        <h1 class="title">{{titulo}}</h1>
+        <h2 class="tutor-name">{{ tutor }}</h2>
     </div>
     <div class="container-poster">
-        <img class="poster"
-            src="https://th.bing.com/th/id/R.6c7d12752e8a3798cc0758cfee98a412?rik=%2b7ldoszJOZbOww&pid=ImgRaw&r=0">
+        <img class="poster" src={{ imagen }}>
     </div>
     <div class="container-information">
-        <h4 class="description"><b>Descripción:</b> Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
-            printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five
-            centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was
-            popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
-            recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum hello i
-            don't know if this will work so i will just try.</h4>
-        <h4 class="phone"><b>Teléfono de Contacto:</b> +56 9 1234 5678</h4>
-        <h4 class="price"><b>Precio:</b> $10.000</h4>
-        <h4 class="classType"><b>Modalidad:</b> Presencial</h4>
-        <h4 class="availability"><b>Disponibilidad:</b> A coordinar</h4>
+        <h4 class="description"><b>Descripción:</b> {{descripcion}}</h4>
+        <h4 class="phone"><b>Teléfono de Contacto:</b> {{ telefono }}</h4>
+        <h4 class="price"><b>Precio:</b> {{ precio }}</h4>
+        <h4 class="classType"><b>Modalidad:</b> {{ modalidad }}</h4>
+        <h4 class="availability"><b>Disponibilidad:</b> {{ disponibilidad }} </h4>
     </div>
 
 </div>
