@@ -10,6 +10,10 @@ Mostrar Afiche
     <div class="container-main-information">
         <h1 class="title">{{titulo}}</h1>
         <h2 class="tutor-name">{{ tutor }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit"> Contactar </button>
+        </form>
     </div>
     <div class="container-poster">
         <img class="poster" src={{ imagen }}>
