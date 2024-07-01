@@ -1,30 +1,43 @@
-.container-page{
+.container-page {
     height: 100vh;
     padding: 10px;
 }
-.container-main-information{
-    h1{
-        margin:0;
+
+.container-main-information {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .contact-information {
+        text-align: center;
     }
-    h2{
-        margin:0;
+
+    h1 {
+        margin: 0;
+    }
+
+    h2 {
+        margin: 0;
         font-weight: lighter;
         font-size: 20px;
-    }   
+    }
 }
-.container-poster{
+
+
+.container-poster {
     margin-top: 10px;
     height: 72%;
-    background-color: black;    
-    
+    background-color: black;
 
-    .poster{
+
+    .poster {
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
 }
-.container-information{
+
+.container-information {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px;
@@ -33,13 +46,13 @@
     height: auto;
     word-wrap: break-word;
 
-    h4{
+    h4 {
         margin: 0;
         margin-top: 10px;
         font-weight: lighter;
     }
 
-    .description{
+    .description {
         margin-top: 0;
     }
 

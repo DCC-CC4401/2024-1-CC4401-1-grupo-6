@@ -1,19 +1,31 @@
 {%extends 'base_navbar.html'%}
+{% load static %}
+{%block stylesheets%}
+<link rel="stylesheet" type="text/css" href="{% static 'css/mostrar_afiche.css' %}">
+{%endblock%}
 {%block title%}
 Mostrar Afiche
-{%endblock%}
-{%block stylesheets%}
-<link rel="stylesheet" type="text/css" href="/static/css/mostrarAfiche.css">
 {%endblock%}
 {%block content%}
 <div class="container-page">
     <div class="container-main-information">
-        <h1 class="title">{{titulo}}</h1>
-        <h2 class="tutor-name">{{ tutor }}</h2>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit"> Contactar </button>
-        </form>
+        <div clas="poster-information">
+            <h1 class="title">{{titulo}}</h1>
+            <h2 class="tutor-name">{{ tutor }}</h2>
+        </div>
+        <div class="contact-information">
+            <h2><b>¿Te interesa?</b></h2>
+            {% if user.is_authenticated %}
+            <h2>Escríbeme al {{ telefono }} o notifícame al correo</h2>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit"> Notificar </button>
+            </form>
+
+            {% else %}
+            <h2>Escríbeme al {{ telefono }}</h2>
+            {% endif %}
+        </div>
     </div>
     <div class="container-poster">
         <img class="poster" src={{ imagen }}>
