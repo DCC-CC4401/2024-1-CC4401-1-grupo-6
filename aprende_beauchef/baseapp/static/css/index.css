@@ -136,3 +136,18 @@
 .filters_button button:hover {
   background-color: #003060;
 }
+
+.results-container {
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+}
+.result-item {
+  padding: 10px;
+  cursor: pointer;
+}
+.result-item:hover {
+  background-color: #f0f0f0;
+}
