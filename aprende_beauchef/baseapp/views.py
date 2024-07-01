@@ -76,7 +76,7 @@ def login_view(request):
                 login(request, user)
                 return redirect("index")
             else:
-                return HttpResponse("Usuario o contraseña incorrectos") #cambiar esto
+                return redirect("login")
 
 
 def logout_user(request):
