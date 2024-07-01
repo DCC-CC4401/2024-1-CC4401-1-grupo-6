@@ -1,5 +1,6 @@
 from django import forms
 from .models import Materia, Afiche
+from django.contrib.auth.forms import SetPasswordForm
 
 # Login Form #
 class LoginForm(forms.Form):
@@ -176,6 +177,30 @@ class RegisterForm(forms.Form):
         required=True,
     )
     password_confirm = forms.CharField(
+        label="Confirmar contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Confirmar contraseña",
+                "class": "password2_input",
+                "id": "password2",
+            }
+        ),
+        required=True,
+    )
+
+class NewPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Contraseña",
+                "class": "password_input",
+                "id": "password",
+            }
+        ),
+        required=True,
+    )
+    new_password2 = forms.CharField(
         label="Confirmar contraseña",
         widget=forms.PasswordInput(
             attrs={

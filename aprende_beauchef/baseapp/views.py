@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import FilterForm
 from django.http import HttpResponse
-from .forms import PublishForm, AficheForm, RegisterForm, LoginForm
+from .forms import PublishForm, AficheForm, RegisterForm, LoginForm, NewPasswordForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
 from django.http import JsonResponse
@@ -262,25 +262,43 @@ def mostrar_afiche(request, posterID):
         )
         return render(request, "mostrarAfiche.html", data)
 
+def newPassword(request):
+    if request.method == "GET":
+        newPassword_form = NewPasswordForm()
+        return render(request, "restablecer_nueva_contraseña.html", {"newPassword_form": newPassword_form})
+    elif request.method == "POST":
+        newPassword_form = NewPasswordForm(request.POST)
+        
+        if newPassword_form.is_valid():
+            password = newPassword_form.cleaned_data['new_password1']
+            password_confirm = newPassword_form.cleaned_data['new_password2']
+            if password != password_confirm:
+                return HttpResponse("Las contraseñas no coinciden")
+            user.set_password(password)
+            user.save()
+            return redirect("login")
+
+"""
 def reset_password(request):
-    """
+
     Renderiza la página de restablecimiento de contraseña.
     Usa el método render que construye la plantilla restablecer_contraseña
 
     parámetro request Información relacionada a la solicitud que se realiza
-    """
+    
     recovery_password_form = LoginRecoveryPassword()
     return render(request, "restablecer_contraseña.html", {'form': recovery_password_form})
 
 def new_password(request):
-    """
+    
     Renderiza la página de nueva contraseña.
     Usa el método render que construye la plantilla nueva_contraseña
 
     parámetro request Información relacionada a la solicitud que se realiza
-    """
+    
     new_password_form = LoginNewPassword()
     return render(request, "nueva_contraseña.html", {'form': new_password_form})
+"""
 
 def profile_view(request):
     """

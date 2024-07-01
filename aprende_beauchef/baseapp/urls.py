@@ -2,6 +2,7 @@ from django.urls import path
 from baseapp import views
 from django.conf.urls.static import static
 from django.conf import settings
+from .forms import NewPasswordForm
 
 from django.contrib.auth import views as auth_views
 
@@ -24,7 +25,8 @@ urlpatterns = [
         template_name='restablecer_contraseña_listo.html'), 
         name='password_reset_done'),
     path('password_reset_confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(
-        template_name='restablecer_nueva_contraseña.html'), 
+        template_name='restablecer_nueva_contraseña.html',
+        form_class=NewPasswordForm), 
         name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
         template_name='restablecer_contraseña_completo.html'), 
