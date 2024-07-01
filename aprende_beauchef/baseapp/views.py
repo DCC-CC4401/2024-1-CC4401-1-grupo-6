@@ -6,6 +6,7 @@ from .forms import PublishForm, AficheForm, RegisterForm, LoginForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
 from django.http import JsonResponse
+from django.core.mail import send_mail
 import os
 
 
@@ -212,36 +213,53 @@ def mostrar_afiche(request, posterID):
 
     parámetro request Información relacionada a la solicitud que se realiza
     """
-    
+    afiche = Afiche.objects.filter(id=posterID).first()
+    publicacion = Publica.objects.filter(afiche=afiche).first()
+
+    if(afiche.descripcion == ''):
+        descripcion = afiche.nombre
+    else:
+        descripcion = afiche.descripcion
+
+    if(publicacion.dicta.tutor.modalidad_preferida == 'rem'):
+        modalidad = 'Remota'
+    elif(publicacion.dicta.tutor.modalidad_preferida == 'pres'):
+        modalidad = 'Presencial'
+    else:
+        modalidad = 'Remota o Presencial'
+
+    #disponibilidad no lo pudo obtener
+        
+    data ={
+        'titulo': afiche.nombre,
+        'imagen': afiche.url.url,
+        'descripcion': descripcion,
+        'tutor': publicacion.dicta.tutor.usuario.name,
+        'telefono': publicacion.dicta.tutor.telefono,
+        'precio': publicacion.dicta.tutor.precio,
+        'modalidad': modalidad,
+        'disponibilidad': 'A coordinar',
+    }
+
     if request.method == "GET":
-        afiche = Afiche.objects.filter(id=posterID).first()
-        publicacion = Publica.objects.filter(afiche=afiche).first()
-
-        if(afiche.descripcion == ''):
-            descripcion = afiche.nombre
-        else:
-            descripcion = afiche.descripcion
-
-        if(publicacion.dicta.tutor.modalidad_preferida == 'rem'):
-            modalidad = 'Remota'
-        elif(publicacion.dicta.tutor.modalidad_preferida == 'pres'):
-            modalidad = 'Presencial'
-        else:
-            modalidad = 'Remota o Presencial'
-
-        #disponibilidad no lo pudo obtener
+        return render(request, "mostrarAfiche.html", data)
+    elif request.method == "POST":
         
-        data ={
-            'titulo': afiche.nombre,
-            'imagen': afiche.url.url,
-            'descripcion': descripcion,
-            'tutor': publicacion.dicta.tutor.usuario.name,
-            'telefono': publicacion.dicta.tutor.telefono,
-            'precio': publicacion.dicta.tutor.precio,
-            'modalidad': modalidad,
-            'disponibilidad': 'A coordinar',
-        }
+        student = request.user
+        studentName = student.name
+        studentEmail = student.email
         
+        tutorName = publicacion.dicta.tutor.usuario.name
+        emailTutor = publicacion.dicta.tutor.usuario.email
+        emailApp = 'aprendebeauchef@gmail.com'
+
+        send_mail(
+            afiche.nombre,
+            f"Estimado/a {tutorName}, tiene un estudiante interesado en su tutoría: {afiche.nombre} de precio: {publicacion.dicta.tutor.precio}.\nPor favor, contáctelo a la brevedad.\n    Nombre del estudiante: {studentName}\n    Email del estudiante: {studentEmail}",
+            studentEmail,  #acá va el email de la app
+            [emailApp], #acá iría el email del tutor, pero como no existe para efectos de demo se prueba con otro correo
+            fail_silently=False,
+        )
         return render(request, "mostrarAfiche.html", data)
 
 def reset_password(request):
@@ -263,6 +281,7 @@ def new_password(request):
     """
     new_password_form = LoginNewPassword()
     return render(request, "nueva_contraseña.html", {'form': new_password_form})
+
 def profile_view(request):
     """
     
