@@ -67,11 +67,20 @@ const validateForm = () => {
     return true; // Form is valid
 }
 
-let submitBtn = document.getElementById("sendForm");
+let submitBtn = document.getElementById("login_button");
 submitBtn.addEventListener("click", (event) => {
     event.preventDefault(); // Prevent the form from submitting immediately
     if (validateForm()) {
         document.getElementById("val-box").hidden = true;
         document.getElementById("confirmation-box").hidden = false;
     }
+});
+let confirmBtn = document.getElementById("confirm_button");
+confirmBtn.addEventListener("click", () => {
+    document.getElementById("login_form").submit(); // Submit the form if the user confirms
+});
+
+let cancelBtn = document.getElementById("cancel_button");
+cancelBtn.addEventListener("click", () => {
+    document.getElementById("confirmation-box").hidden = true;
 });
