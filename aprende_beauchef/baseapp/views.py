@@ -7,7 +7,7 @@ from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica,
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.core.mail import send_mail
-import os
+import re 
 
 
 def index(request):
@@ -66,8 +66,12 @@ def search_courses(request):
     """
     Vista que transforma la búsqueda de cursos en tiempo real en una lista de sugerencias JSON
     """
+    codigo_curso = re.compile(r'^[A-Z]{2}\d{0,4}$')
     query = request.GET.get('search', '')
-    courses = Materia.objects.filter(nombre__icontains=query).order_by('nombre')
+    if codigo_curso.match(query):
+        courses = Materia.objects.filter(codigo_curso__icontains=query).order_by('nombre')
+    else:
+        courses = Materia.objects.filter(nombre__icontains=query).order_by('nombre')
     results = []
     for course in courses:
         results.append({
