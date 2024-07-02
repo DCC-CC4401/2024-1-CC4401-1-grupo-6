@@ -31,11 +31,10 @@ const validateName = (name) => {
 };
 
 const validatePrice = (price) => {
-  if (!price) return false;
+  if (price == null || price == "") return false;
   //length validation
   let maxValue = 999999999;
-
-  if (price > 0 && price <= maxValue) return true;
+  if (price >= 0 && price <= maxValue) return true;
 
   return false;
 };

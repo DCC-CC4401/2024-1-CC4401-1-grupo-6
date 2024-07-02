@@ -32,26 +32,29 @@ def index(request):
         if filter_form.is_valid():
             # Al menos para los precios es necesario tener valor por default, por eso el if else
             search = filter_form.cleaned_data['search']
-            max_price = filter_form.cleaned_data['max_price'] if filter_form.cleaned_data['max_price'] else 999999999
-            min_price = filter_form.cleaned_data['min_price'] if filter_form.cleaned_data['min_price'] else 0
+            max_price = filter_form.cleaned_data['max_price']
+            min_price = filter_form.cleaned_data['min_price'] 
             modality = filter_form.cleaned_data['modality']
             disponibility = filter_form.cleaned_data['disponibility']
             alldisponibility = filter_form.cleaned_data.get('disponibility')
-            
+
+            if max_price is None or max_price == '':
+                max_price = 999999999
+            if min_price is None or min_price == '':
+                min_price = 0
+
             # Obtener todas las publicaciones de afiches
             publicaciones = Afiche.objects.all().order_by('-id')
 
             # Aplicar los filtros opcionales
             if search:
                 publicaciones = publicaciones.filter(publica__dicta__materia__nombre__icontains=search).order_by('-id')
-            if max_price:
+            if max_price is not None:
                 publicaciones = publicaciones.filter(publica__dicta__tutor__precio__lte=max_price).order_by('-id')
-            if min_price:
+            if min_price is not None:
                 publicaciones = publicaciones.filter(publica__dicta__tutor__precio__gte=min_price).order_by('-id')
             if alldisponibility != 'ALL':
                 publicaciones = publicaciones.filter(publica__dicta__tutor__horario__dia_semana=disponibility).order_by('-id')
-            if modality != 'AMB':
-                publicaciones = publicaciones.filter(publica__dicta__tutor__modalidad_preferida=modality).order_by('-id')
             
             #La idea es que sigan filtrando de esta forma, es decir, reasignando publicaciones
             #con los filtros para modalidad.
