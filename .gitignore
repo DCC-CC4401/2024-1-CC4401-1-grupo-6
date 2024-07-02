@@ -1,5 +1,5 @@
 ing_software/
 *.pyc
 __pycache__/
-
+*.sqlite3
 aprende_beauchef/baseapp/uploads/
