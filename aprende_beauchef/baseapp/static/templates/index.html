@@ -26,13 +26,17 @@ Aprende Beauchef
         {%endfor%}
 
     </div>
-    <form class="filters" method="POST">
+    <form id= "filter_form" class="filters" method="POST">
         {% csrf_token %}
         <div class="filters-container">
             <h3>Filtrar publicaciones</h3>
             {{ filter_form.as_p }}
         </div>
         <div class="results-container" id="results-container"></div>
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
         <div class="filters_button">
             <button id="filters_button" type="submit">Aplicar filtros</button>
         </div>
