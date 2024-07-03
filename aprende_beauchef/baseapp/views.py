@@ -263,6 +263,7 @@ def mostrar_afiche(request, posterID):
         return render(request, "mostrarAfiche.html", data)
 
 def newPassword(request):
+    user=request.user
     if request.method == "GET":
         newPassword_form = NewPasswordForm()
         return render(request, "restablecer_nueva_contraseña.html", {"newPassword_form": newPassword_form})

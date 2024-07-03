@@ -5,13 +5,13 @@
 Regístrate
 {%endblock%}
 {%block stylesheets%}
-<link rel="stylesheet"  type="text/css" href="/static/css/register.css">
+<link rel="stylesheet" type="text/css" href="/static/css/register.css">
 {%endblock%}
 {%block content%}
 <div class="main-container">
 
     <div class="page_title">
-        <h1>Registrate</h1>
+        <h1>Regístrate</h1>
     </div>
 
     <form name="register_form" id="register_form" method="post" enctype="multipart/form-data">
@@ -29,13 +29,14 @@ Regístrate
             <button type="button" onclick="redirect('/')" class="backToIndex"> Volver </button>
         </div>
     </form>
-</div>
-<!-- Cuadro de confirmación -->
-<div id="confirmation-box" hidden>
-    <h2>Confirmar registro</h2>
-    <p>¿Está seguro de que desea enviar esta información?</p>
-    <button id="confirm_button" type="submit" form="publish_form">Confirmar</button>
-    <button id="cancel_button" type="button">Cancelar</button>
+
+    <!-- Cuadro de confirmación -->
+    <div class="container-confirmation" id="confirmation-box" hidden>
+        <h2>Confirmar registro</h2>
+        <p>¿Está seguro de que desea enviar esta información?</p>
+        <button id="confirm_button" type="submit" form="publish_form">Confirmar</button>
+        <button id="cancel_button" type="button">Cancelar</button>
+    </div>
 </div>
 {% endblock %}
 
