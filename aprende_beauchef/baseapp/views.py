@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import FilterForm
 from django.http import HttpResponse
-from .forms import PublishForm, AficheForm, RegisterForm, LoginForm, NewPasswordForm
+from .forms import PublishForm, AficheForm, RegisterForm, LoginForm, NewPasswordForm, EditProfileForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
 from django.http import JsonResponse
@@ -314,11 +314,9 @@ def profile_view(request):
         tutor = None
         afiches = None
     return render(request, "profile.html", {'user': user, 'afiches': afiches})
-
+"""
 def profile_edit(request):
-    """
-    
-    """
+
     user=request.user
     if request.method == "GET":
         return render(request, "profile_config.html", {'user': user})
@@ -328,3 +326,23 @@ def profile_edit(request):
         user.email = data.get("email")
         user.save()
         return redirect(request, "profile.html", {'user': user})
+"""
+
+def profile_edit(request):
+    user=request.user
+    if request.method == "GET":
+        editProfile_form = EditProfileForm(initial={'name': user.name, 'username': user.username, 'email': user.email})
+        return render(request, "profile_config.html", {"editProfile_form": editProfile_form})
+    
+    elif request.method == "POST":
+        editProfile_form = EditProfileForm(request.POST)
+
+        if editProfile_form.is_valid():
+            name = editProfile_form.cleaned_data['name']
+            username = editProfile_form.cleaned_data['username']
+            email = editProfile_form.cleaned_data['email']
+            user.name = name
+            user.username = username
+            user.email = email
+            user.save()
+            return render(request ,"profile.html", {'user': user})

@@ -1,29 +1,38 @@
 {%extends 'base_navbar.html'%}
 {% load static %}
 {%block stylesheets%}
-    <link rel="stylesheet"  type="text/css" href="{% static 'css/profile_config.css'%}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile_config.css'%}">
 {%endblock%}
 {%block title%}
-    Perfil
+Perfil
 {%endblock%}
 
 {%block content%}
-    <div class="profile-content">
-        <div class="user-tittle">
-            <h1 class="user-profile"> Configuración Perfil de {{user.name}}</h1>
-        </div>
-        <div class="input">  
-            <label for="name"> Nombre </label>
-            <input type="text" id="name" name="name" value="{{user.name}}"> <br>
-            <label for="username"> Nombre de usuario </label>
-            <input type="text" id="username" name="username" value="{{user.username}}"> <br>
-            <label for="email"> Email </label>
-            <input type="text" id="email" name="email" value="{{user.email}}"> <br>
-            <label for="password"><p>Contraseña: <span id="password-view">*****</span> <button id="showPassword">Cambiar contraseña</button></p></label>
-        </div>
-        <button type="submit" id="save" class="buttons">Guardar cambios</button>
-    
+<div class="profile-content">
+    <div class="user-tittle">
+        <h1 class="user-profile"> Editar Perfil</h1>
     </div>
-    
+    <form name="editProfile_form" id="editProfile_form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+        <div class="input">
+            {{ editProfile_form.as_p }}
+        </div>
+        <div class="register_button">
+            <button type="submit" class="envioFormulario" id="ProfileConfigButton">Guardar Cambios</button>
+            <button type="button" onclick="location.href = 'http://127.0.0.1:8000/profile'" class="backToIndex"> Volver
+            </button>
+        </div>
+    </form>
+
+</div>
+
 
 {%endblock%}
+
+{% block javascript %}
+<script src="{% static 'js/profile_config.js' %}"></script>
+{% endblock %}
