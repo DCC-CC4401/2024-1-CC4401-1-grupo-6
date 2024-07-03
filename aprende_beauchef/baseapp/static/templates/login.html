@@ -23,22 +23,18 @@ Iniciar sesión
             </div>
             <div class="input">
                 {{ login_form.as_p }}
+                <a href="http://127.0.0.1:8000/restablecer_contraseña">Restablecer Contraseña</a>
             </div>
             <div class="button-container">
                 <button id="login_button" type="submit"> Iniciar sesión </button>
                 <button type="button" class="NotAccount" id="NotAccount" onclick="redirect('/register')"> No tengo
-                    cuenta </button> <br>
+                    cuenta </button>
                 <button type="button" class="backToIndex" id="backToIndex" onclick="redirect('/')"> Volver </button>
-                <br>
-                <button type="button" class="resetPassword" id="resetPassword"
-                    onclick="redirect('/restablecer_contraseña')"> restablecer contraseña
-                </button> <br>
             </div>
-
         </form>
     </div>
 </div>
-<!-- Cuadro de confirmación -->
+
 {%endblock%}
 
 {% block javascript %}

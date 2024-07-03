@@ -13,14 +13,14 @@ const validatePassword = (password) => {
     //length validation
     let lengthValid = password.length >= 8 && password.length <= 20;
     //format validation
-    let re2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/; 
+    let re2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     let formatValid = re2.test(password);
     return formatValid && lengthValid;
 }
 
 const validateForm = () => {
     let isValid = true;
-    
+
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
@@ -58,7 +58,7 @@ const validateForm = () => {
         }
         // set val-msg
         validationMessageElem.innerText = "Los siguiente campos son inválidos:";
-    
+
         // make validation prompt visible
         validationBox.hidden = false;
         return false; // Form is not valid
@@ -68,4 +68,10 @@ const validateForm = () => {
 }
 
 let submitBtn = document.getElementById("login_button");
-submitBtn.addEventListener("click", validateForm);
+submitBtn.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevent the form from submitting immediately
+    if (validateForm()) {
+        document.getElementById("val-box").hidden = true;
+        document.getElementById("login_form").submit(); // Submit the form if the user confirms
+    }
+});
