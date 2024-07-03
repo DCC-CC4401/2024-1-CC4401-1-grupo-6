@@ -1,4 +1,6 @@
 {%extends 'base.html'%}
+
+{% load static %}
 {%block title%}
 Iniciar sesión
 {%endblock%}
@@ -15,25 +17,30 @@ Iniciar sesión
     <div class="login_form_class">
         <form name="login_form" id="login_form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="username_input">
-                <label for="username"> Nombre de Usuario: </label> <br>
-                <input type="text" id="username" name="username">
+            <div id="val-box" hidden>
+                <h2 id="val-msg"></h2>
+                <ul id="val-list"></ul>
             </div>
-
-            <div class="password_input">
-                <label for="password"> Contraseña: </label> <br>
-                <input type="password" id="password" name="password">
-                <a class="new_password" href="http://127.0.0.1:8000/restablecer_contraseña">Restablecer Contraseña</a>
+            <div class="input">
+                {{ login_form.as_p }}
             </div>
             <div class="button-container">
                 <button id="login_button" type="submit"> Iniciar sesión </button>
-                <button type="button" class="NotAccount" id="NotAccount"
-                    onclick="location.href = 'http://127.0.0.1:8000/register'"> No tengo cuenta </button>
-                <button type="button" class="backToIndex" id="backToIndex"
-                    onclick="location.href = 'http://127.0.0.1:8000/'"> Volver </button>
+                <button type="button" class="NotAccount" id="NotAccount" onclick="redirect('/register')"> No tengo
+                    cuenta </button> <br>
+                <button type="button" class="backToIndex" id="backToIndex" onclick="redirect('/')"> Volver </button>
+                <br>
+                <button type="button" class="resetPassword" id="resetPassword"
+                    onclick="redirect('/restablecer_contraseña')"> restablecer contraseña
+                </button> <br>
             </div>
 
         </form>
     </div>
 </div>
+<!-- Cuadro de confirmación -->
 {%endblock%}
+
+{% block javascript %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

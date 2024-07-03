@@ -94,19 +94,19 @@ def login_view(request):
     parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
     """
     if request.method == "GET":
-        form = LoginForm()
-        return render(request, "login.html", {'form': form})
+        login_form = LoginForm()
+        return render(request, "login.html", {'login_form': login_form})
     if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect("index")
             else:
-                return HttpResponse("Usuario o contraseña incorrectos")
+                return redirect("login")
 
 
 def logout_user(request):
