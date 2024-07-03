@@ -1,4 +1,6 @@
 {%extends 'base.html'%}
+
+{% load static %}
 {%block title%}
 Nueva contraseña
 {%endblock%}
@@ -10,18 +12,14 @@ Nueva contraseña
     <div class="LoginNewPassword_form_class">
 
         <form name="LoginNewPassword_form" id="LoginNewPassword_form" method="post" enctype="multipart/form-data">
+            {{ form.as_p }}
             {% csrf_token %}
-            {{ form.new_password1.errors }}
-            <label for="id_new_password1">Nueva contraseña:</label>
-            {{ form.new_password1 }}
-
-            <br>
-
-            {{ form.new_password2.errors }}
-            <label for="id_new_password2">Confirma tu contraseña:</label>
-            {{ form.new_password2 }}
-
-            <br>
+            <div id="val-box" hidden>
+                <h2 id="val-msg"></h2>
+                <ul id="val-list"></ul>
+            </div>
+            <div class="input">
+            </div>
 
             <button id="LoginNewPassword_button" type="submit"> Actualizar Contraseña </button>
         </form>
@@ -32,6 +30,8 @@ Nueva contraseña
     </div>
 </div>
 
-
+{% block javascript %}
+<script src="{% static 'js/password.js' %}"></script>
+{% endblock %}
 
 {%endblock%}

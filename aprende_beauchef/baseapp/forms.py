@@ -1,5 +1,6 @@
 from django import forms
 from .models import Materia, Afiche
+from django.contrib.auth.forms import SetPasswordForm
 
 # Login Form #
 class LoginForm(forms.Form):
@@ -186,3 +187,64 @@ class RegisterForm(forms.Form):
         ),
         required=True,
     )
+
+class NewPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Contraseña",
+                "class": "password_input",
+                "id": "password",
+            }
+        ),
+        required=True,
+    )
+    new_password2 = forms.CharField(
+        label="Confirmar contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Confirmar contraseña",
+                "class": "password2_input",
+                "id": "password2",
+            }
+        ),
+        required=True,
+    )
+
+class EditProfileForm(forms.Form):
+    name = forms.CharField(
+        label="Nombre",
+        max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Nombre Apellido",
+                "class": "name_input",
+                "id": "name",
+            }
+        ),
+        required=True,
+    )
+    username = forms.CharField(
+        label="Nombre de usuario",
+        max_length=20,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Nombre de usuario",
+                "class": "username_input",
+                "id": "username",
+            }
+        ),
+        required=True,
+    )
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "xxxxx@xxxx.xx",
+                "class": "email_input",
+                "id": "email",
+            }
+        ),
+    )
+    

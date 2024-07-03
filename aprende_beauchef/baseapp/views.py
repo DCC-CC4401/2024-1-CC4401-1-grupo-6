@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import FilterForm
 from django.http import HttpResponse
-from .forms import PublishForm, AficheForm, RegisterForm, LoginForm
+from .forms import PublishForm, AficheForm, RegisterForm, LoginForm, NewPasswordForm, EditProfileForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
-import os
+from django.http import JsonResponse
+from django.core.mail import send_mail
+import re 
 
 
 def index(request):
@@ -24,34 +26,62 @@ def index(request):
         else:
             posters = posters
         return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
-    
+        
     elif request.method == "POST":
         filter_form = FilterForm(request.POST)
         if filter_form.is_valid():
             # Al menos para los precios es necesario tener valor por default, por eso el if else
             search = filter_form.cleaned_data['search']
-            max_price = filter_form.cleaned_data['max_price'] if filter_form.cleaned_data['max_price'] else 999999999
-            min_price = filter_form.cleaned_data['min_price'] if filter_form.cleaned_data['min_price'] else 0
+            max_price = filter_form.cleaned_data['max_price']
+            min_price = filter_form.cleaned_data['min_price'] 
             modality = filter_form.cleaned_data['modality']
             disponibility = filter_form.cleaned_data['disponibility']
             alldisponibility = filter_form.cleaned_data.get('disponibility')
-            
-            # Buscar de esta forma depende de saber el tutor, es más tosco y requiere del try catch
-            # publicaciones = Publica.objects.filter(dicta__tutor=tutor, dicta__tutor__precio__lte=max_price).select_related('afiche')
 
-            # Obtener todas las publicaciones de afiches filtrado de acuerdo a los parametros
-            publicaciones = Afiche.objects.all().filter(
-                #nombre__icontains=search,
-                publica__dicta__tutor__precio__lte=max_price,
-                publica__dicta__tutor__precio__gte=min_price,
-                #publica__dicta__tutor__modalidad_preferida=modality
-            ).order_by('-id')
+            if max_price is None or max_price == '':
+                max_price = 999999999
+            if min_price is None or min_price == '':
+                min_price = 0
+
+            # Obtener todas las publicaciones de afiches
+            publicaciones = Afiche.objects.all().order_by('-id')
+
+            # Aplicar los filtros opcionales
+            if search:
+                publicaciones = publicaciones.filter(publica__dicta__materia__nombre__icontains=search).order_by('-id')
+            if max_price is not None:
+                publicaciones = publicaciones.filter(publica__dicta__tutor__precio__lte=max_price).order_by('-id')
+            if min_price is not None:
+                publicaciones = publicaciones.filter(publica__dicta__tutor__precio__gte=min_price).order_by('-id')
             if alldisponibility != 'ALL':
                 publicaciones = publicaciones.filter(publica__dicta__tutor__horario__dia_semana=disponibility).order_by('-id')
+            
+            #La idea es que sigan filtrando de esta forma, es decir, reasignando publicaciones
+            #con los filtros para modalidad.
+
             afiches = [publicacion for publicacion in publicaciones]
             return render(request, "index.html", {'filter_form': filter_form,'afiches': afiches})
         else:
             return HttpResponse("Error al filtrar los afiches")
+        
+
+def search_courses(request):
+    """
+    Vista que transforma la búsqueda de cursos en tiempo real en una lista de sugerencias JSON
+    """
+    codigo_curso = re.compile(r'^[A-Z]{2}\d{0,4}$')
+    query = request.GET.get('search', '')
+    if codigo_curso.match(query):
+        courses = Materia.objects.filter(codigo_curso__icontains=query).order_by('nombre')
+    else:
+        courses = Materia.objects.filter(nombre__icontains=query).order_by('nombre')
+    results = []
+    for course in courses:
+        results.append({
+            'codigo_curso': course.codigo_curso,
+            'nombre': course.nombre
+        })
+    return JsonResponse(results, safe=False)
 
 
 def login_view(request):
@@ -181,7 +211,7 @@ def register(request):
             return redirect("login")
 
 
-def mostrar_afiche(request):
+def mostrar_afiche(request, posterID):
     """
     Renderiza la página de un afiche más detallado
     Si la solicitud es un GET, construye la plantilla mostrarAfiche.
@@ -190,30 +220,94 @@ def mostrar_afiche(request):
 
     parámetro request Información relacionada a la solicitud que se realiza
     """
-    
-    if request.method == "GET":
-        #Quizás haya que pasarle el id del afiche a mostrar
-        return render(request, "mostrarAfiche.html")
+    afiche = Afiche.objects.filter(id=posterID).first()
+    publicacion = Publica.objects.filter(afiche=afiche).first()
 
+    if(afiche.descripcion == ''):
+        descripcion = afiche.nombre
+    else:
+        descripcion = afiche.descripcion
+
+    if(publicacion.dicta.tutor.modalidad_preferida == 'rem'):
+        modalidad = 'Remota'
+    elif(publicacion.dicta.tutor.modalidad_preferida == 'pres'):
+        modalidad = 'Presencial'
+    else:
+        modalidad = 'Remota o Presencial'
+
+    #disponibilidad no lo pudo obtener
+        
+    data ={
+        'titulo': afiche.nombre,
+        'imagen': afiche.url.url,
+        'descripcion': descripcion,
+        'tutor': publicacion.dicta.tutor.usuario.name,
+        'telefono': publicacion.dicta.tutor.telefono,
+        'precio': publicacion.dicta.tutor.precio,
+        'modalidad': modalidad,
+        'disponibilidad': 'A coordinar',
+    }
+
+    if request.method == "GET":
+        return render(request, "mostrarAfiche.html", data)
+    elif request.method == "POST":
+        
+        student = request.user
+        studentName = student.name
+        studentEmail = student.email
+        
+        tutorName = publicacion.dicta.tutor.usuario.name
+        emailTutor = publicacion.dicta.tutor.usuario.email
+        emailApp = 'aprendebeauchef@gmail.com'
+
+        send_mail(
+            afiche.nombre,
+            f"Estimado/a {tutorName}, tiene un estudiante interesado en su tutoría: {afiche.nombre} de precio: {publicacion.dicta.tutor.precio}.\nPor favor, contáctelo a la brevedad.\n    Nombre del estudiante: {studentName}\n    Email del estudiante: {studentEmail}",
+            studentEmail,  #acá va el email de la app
+            [emailApp], #acá iría el email del tutor, pero como no existe para efectos de demo se prueba con otro correo
+            fail_silently=False,
+        )
+        return render(request, "mostrarAfiche.html", data)
+
+def newPassword(request):
+    user=request.user
+    if request.method == "GET":
+        newPassword_form = NewPasswordForm()
+        return render(request, "restablecer_nueva_contraseña.html", {"newPassword_form": newPassword_form})
+    elif request.method == "POST":
+        newPassword_form = NewPasswordForm(request.POST)
+        
+        if newPassword_form.is_valid():
+            password = newPassword_form.cleaned_data['new_password1']
+            password_confirm = newPassword_form.cleaned_data['new_password2']
+            if password != password_confirm:
+                return HttpResponse("Las contraseñas no coinciden")
+            user.set_password(password)
+            user.save()
+            return redirect("login")
+
+"""
 def reset_password(request):
-    """
+
     Renderiza la página de restablecimiento de contraseña.
     Usa el método render que construye la plantilla restablecer_contraseña
 
     parámetro request Información relacionada a la solicitud que se realiza
-    """
+    
     recovery_password_form = LoginRecoveryPassword()
     return render(request, "restablecer_contraseña.html", {'form': recovery_password_form})
 
 def new_password(request):
-    """
+    
     Renderiza la página de nueva contraseña.
     Usa el método render que construye la plantilla nueva_contraseña
 
     parámetro request Información relacionada a la solicitud que se realiza
-    """
+    
     new_password_form = LoginNewPassword()
     return render(request, "nueva_contraseña.html", {'form': new_password_form})
+"""
+
 def profile_view(request):
     """
     
@@ -228,11 +322,9 @@ def profile_view(request):
         tutor = None
         afiches = None
     return render(request, "profile.html", {'user': user, 'afiches': afiches})
-
+"""
 def profile_edit(request):
-    """
-    
-    """
+
     user=request.user
     if request.method == "GET":
         return render(request, "profile_config.html", {'user': user})
@@ -242,3 +334,23 @@ def profile_edit(request):
         user.email = data.get("email")
         user.save()
         return redirect(request, "profile.html", {'user': user})
+"""
+
+def profile_edit(request):
+    user=request.user
+    if request.method == "GET":
+        editProfile_form = EditProfileForm(initial={'name': user.name, 'username': user.username, 'email': user.email})
+        return render(request, "profile_config.html", {"editProfile_form": editProfile_form})
+    
+    elif request.method == "POST":
+        editProfile_form = EditProfileForm(request.POST)
+
+        if editProfile_form.is_valid():
+            name = editProfile_form.cleaned_data['name']
+            username = editProfile_form.cleaned_data['username']
+            email = editProfile_form.cleaned_data['email']
+            user.name = name
+            user.username = username
+            user.email = email
+            user.save()
+            return render(request ,"profile.html", {'user': user})

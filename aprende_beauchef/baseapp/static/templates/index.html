@@ -15,7 +15,9 @@ Aprende Beauchef
         {%for poster in afiches%}
         <article>
             <div class="container-title">
-                <h2>{{poster.nombre}}</h2>
+                <a href="{% url 'mostrarAfiche' posterID=poster.id %}">
+                    <h2>{{poster.nombre}}</h2>
+                </a>
             </div>
             <div class="container-poster">
                 <img src="{{poster.url.url}}" alt="{{poster.nombre}}">
@@ -30,10 +32,16 @@ Aprende Beauchef
             <h3>Filtrar publicaciones</h3>
             {{ filter_form.as_p }}
         </div>
+        <div class="results-container" id="results-container"></div>
         <div class="filters_button">
             <button id="filters_button" type="submit">Aplicar filtros</button>
         </div>
     </form>
 </div>
 
+{%endblock%}
+
+{%block javascript%}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/index.js' %}"></script>
 {%endblock%}

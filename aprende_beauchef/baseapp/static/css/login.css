@@ -1,106 +1,165 @@
 /* Estilo General del Contenedor */
 .main-container {
-    font-family: Arial, sans-serif; /* Tipo de fuente */
-    width: 500px; /* Ancho del formulario */
-    margin: 150px auto; /* Centrado y margen desde el top */
-    padding: 20px; /* Espacio dentro del contenedor */
-    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Sombra alrededor del formulario */
-    border-radius: 10px; /* Bordes redondeados del contenedor */
-    background-color: white; /* Color de fondo */
+    font-family: Arial, sans-serif;
+    /* Tipo de fuente */
+    width: 500px;
+    /* Ancho del formulario */
+    margin: 150px auto;
+    /* Centrado y margen desde el top */
+    padding: 20px;
+    /* Espacio dentro del contenedor */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    /* Sombra alrededor del formulario */
+    border-radius: 10px;
+    /* Bordes redondeados del contenedor */
+    background-color: white;
+    /* Color de fondo */
 }
 
 /* Título del formulario */
 .page_title {
-    text-align: center; /* Centrar el título */
-    color: #0056b3; /* Color del texto */
-    margin-bottom: 20px; /* Espacio después del título */
+    text-align: center;
+    /* Centrar el título */
+    color: #0056b3;
+    /* Color del texto */
+    margin-bottom: 20px;
+    /* Espacio después del título */
 }
 
 /* Estilos del Formulario */
 .login_form_class form {
-    display: flex; /* Usar flexbox */
-    flex-direction: column; /* Elementos en columna */
+    display: flex;
+    /* Usar flexbox */
+    flex-direction: column;
+    /* Elementos en columna */
 }
 
 .login_form_class label {
-    color: #000000; /* Color de la etiqueta */
-    font-size: 20px; /* Tamaño de la fuente */
-    margin-bottom: 5px; /* Espacio debajo de la etiqueta */
+    color: #000000;
+    /* Color de la etiqueta */
+    font-size: 16px;
+    /* Tamaño de la fuente */
+    margin-bottom: 5px;
+    /* Espacio debajo de la etiqueta */
 }
 
 .login_form_class input[type="text"],
 .login_form_class input[type="password"] {
-    padding: 10px; /* Padding dentro de los inputs */
-    margin-bottom: 20px; /* Margen entre los inputs */
-    border: 2px solid #6066FF; /* Borde azul */
-    border-radius: 20px; /* Bordes redondeados */
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #6066FF;
+    border-radius: 5px;
+    /* Bordes redondeados */
 }
 
 .button-container {
     display: flex;
-    flex-direction: row; /* Alinea los botones en fila */
-    justify-content: center; /* Centra los botones horizontalmente */
-    gap: 10px; /* Espacio entre los botones */
+    flex-direction: row;
+    /* Alinea los botones en fila */
+    justify-content: center;
+    /* Centra los botones horizontalmente */
+    gap: 10px;
+    margin-top: 10px;
+    /* Espacio entre los botones */
 }
 
 /* Botón de  */
 #login_button {
-    background-color: #007BFF; /* Color de fondo azul */
-    border: none; /* Sin bordes */
-    color: white; /* Texto en blanco */
-    padding: 10px 20px; /* Padding */
-    font-size: 16px; /* Tamaño del texto */
-    border-radius: 20px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
-    transition: background-color 0.3s; /* Transición suave del color de fondo */
+    background-color: #007BFF;
+    /* Color de fondo azul */
+    border: none;
+    /* Sin bordes */
+    color: white;
+    /* Texto en blanco */
+    padding: 10px 20px;
+    /* Padding */
+    font-size: 16px;
+    /* Tamaño del texto */
+    border-radius: 5px;
+    /* Bordes redondeados */
+    cursor: pointer;
+    /* Cursor en forma de mano al pasar sobre el botón */
+    transition: background-color 0.3s;
+    /* Transición suave del color de fondo */
 }
 
 #login_button:hover {
-    background-color: #0056b3; /* Color al hacer hover */
+    background-color: #0056b3;
+    /* Color al hacer hover */
 }
 
 /* Botón de  */
 #NotAccount {
-    background-color: #007BFF; /* Color de fondo azul */
-    border: none; /* Sin bordes */
-    color: white; /* Texto en blanco */
-    padding: 10px 20px; /* Padding */
-    font-size: 16px; /* Tamaño del texto */
-    border-radius: 20px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
-    transition: background-color 0.3s; /* Transición suave del color de fondo */
+    background-color: #007BFF;
+    /* Color de fondo azul */
+    border: none;
+    /* Sin bordes */
+    color: white;
+    /* Texto en blanco */
+    padding: 10px 20px;
+    /* Padding */
+    font-size: 16px;
+    /* Tamaño del texto */
+    border-radius: 5px;
+    /* Bordes redondeados */
+    cursor: pointer;
+    /* Cursor en forma de mano al pasar sobre el botón */
+    transition: background-color 0.3s;
+    /* Transición suave del color de fondo */
 }
 
 #NotAccount:hover {
-    background-color: #0056b3; /* Color al hacer hover */
+    background-color: #0056b3;
+    /* Color al hacer hover */
 }
 
 /* Botón de  */
 #backToIndex {
-    background-color: #007BFF; /* Color de fondo azul */
-    border: none; /* Sin bordes */
-    color: white; /* Texto en blanco */
-    padding: 10px 20px; /* Padding */
-    font-size: 16px; /* Tamaño del texto */
-    border-radius: 20px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
-    transition: background-color 0.3s; /* Transición suave del color de fondo */
+    background-color: #007BFF;
+    /* Color de fondo azul */
+    border: none;
+    /* Sin bordes */
+    color: white;
+    /* Texto en blanco */
+    padding: 10px 20px;
+    /* Padding */
+    font-size: 16px;
+    /* Tamaño del texto */
+    border-radius: 5px;
+    /* Bordes redondeados */
+    cursor: pointer;
+    /* Cursor en forma de mano al pasar sobre el botón */
+    transition: background-color 0.3s;
+    /* Transición suave del color de fondo */
 }
 
 #backToIndex:hover {
-    background-color: #0056b3; /* Color al hacer hover */
+    background-color: #0056b3;
+    /* Color al hacer hover */
 }
+
 /* Botón de  */
 #resetPassword {
-    background-color: #007BFF; /* Color de fondo azul */
-    border: none; /* Sin bordes */
-    color: white; /* Texto en blanco */
-    padding: 10px 20px; /* Padding */
-    font-size: 16px; /* Tamaño del texto */
-    border-radius: 20px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
-    transition: background-color 0.3s; /* Transición suave del color de fondo */
+    background-color: #007BFF;
+    /* Color de fondo azul */
+    border: none;
+    /* Sin bordes */
+    color: white;
+    /* Texto en blanco */
+    padding: 10px 20px;
+    /* Padding */
+    font-size: 16px;
+    /* Tamaño del texto */
+    border-radius: 20px;
+    /* Bordes redondeados */
+    cursor: pointer;
+    /* Cursor en forma de mano al pasar sobre el botón */
+    transition: background-color 0.3s;
+    /* Transición suave del color de fondo */
 }
+
 #resetPassword:hover {
-    background-color: #0056b3; /* Color al hacer hover */
+    background-color: #0056b3;
+    /* Color al hacer hover */
 }
