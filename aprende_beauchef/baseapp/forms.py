@@ -1,6 +1,7 @@
 from django import forms
 from .models import Materia, Afiche
 from django.contrib.auth.forms import SetPasswordForm
+from django.core.validators import MinValueValidator
 
 # Login Form #
 class LoginForm(forms.Form):
@@ -11,6 +12,87 @@ class LoginForm(forms.Form):
 
 # Register Form #
 
+class RegisterForm(forms.Form):
+    name = forms.CharField(
+        label="Nombre",
+        max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Nombre Apellido",
+                "class": "name_input",
+                "id": "name",
+            }
+        ),
+        required=True,
+    )
+    username = forms.CharField(
+        label="Nombre de usuario",
+        max_length=20,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Nombre de usuario",
+                "class": "username_input",
+                "id": "username",
+            }
+        ),
+        required=True,
+    )
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "xxxxx@xxxx.xx",
+                "class": "email_input",
+                "id": "email",
+            }
+        ),
+    )
+    password = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Contraseña",
+                "class": "password_input",
+                "id": "password",
+            }
+        ),
+        required=True,
+    )
+    password_confirm = forms.CharField(
+        label="Confirmar contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Confirmar contraseña",
+                "class": "password2_input",
+                "id": "password2",
+            }
+        ),
+        required=True,
+    )
+
+class NewPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Contraseña",
+                "class": "password_input",
+                "id": "password",
+            }
+        ),
+        required=True,
+    )
+    new_password2 = forms.CharField(
+        label="Confirmar contraseña",
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Confirmar contraseña",
+                "class": "password2_input",
+                "id": "password2",
+            }
+        ),
+        required=True,
+    )
 
 # Publish Form #
 
@@ -18,27 +100,24 @@ class LoginForm(forms.Form):
 class AficheForm(forms.ModelForm):
     class Meta:
         model = Afiche
-        fields = ["url", "descripcion", "nombre"]
+        fields = ["url", "descripcion", "nombre", "precio"]
         labels = {
             "url": "Sube tu afiche",
             "descripcion": "Escribe una descripción (opcional)",
             "nombre": "Escribe el nombre de tu afiche",
+            "precio": "Escribe el precio de tu afiche",
         }
 
     def __init__(self, *args, **kwargs):
         super(AficheForm, self).__init__(*args, **kwargs)
         self.fields["descripcion"].required = False
+        self.fields["precio"].validators.append(MinValueValidator(0))
+        self.fields["precio"].widget = forms.TextInput(attrs={"placeholder": "14000"})
 
 
 class PublishForm(forms.Form):
     courses = forms.ModelChoiceField(
         queryset=Materia.objects.all(), label="Escoge el curso", required=True
-    )
-    price = forms.IntegerField(
-        label="Precio estimado",
-        min_value=0,
-        widget=forms.TextInput(attrs={"placeholder": "14000"}),
-        required=True,
     )
     modality = forms.ChoiceField(
         choices=[("pres", "presencial"), ("rem", "remota")],
@@ -126,88 +205,4 @@ class FilterForm(forms.Form):
         ],
         label="Disponibilidad",
         required=False,
-    )
-
-# Register form
-
-class RegisterForm(forms.Form):
-    name = forms.CharField(
-        label="Nombre",
-        max_length=50,
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Nombre Apellido",
-                "class": "name_input",
-                "id": "name",
-            }
-        ),
-        required=True,
-    )
-    username = forms.CharField(
-        label="Nombre de usuario",
-        max_length=20,
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Nombre de usuario",
-                "class": "username_input",
-                "id": "username",
-            }
-        ),
-        required=True,
-    )
-    email = forms.EmailField(
-        label="Email",
-        widget=forms.EmailInput(
-            attrs={
-                "placeholder": "xxxxx@xxxx.xx",
-                "class": "email_input",
-                "id": "email",
-            }
-        ),
-    )
-    password = forms.CharField(
-        label="Contraseña",
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Contraseña",
-                "class": "password_input",
-                "id": "password",
-            }
-        ),
-        required=True,
-    )
-    password_confirm = forms.CharField(
-        label="Confirmar contraseña",
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Confirmar contraseña",
-                "class": "password2_input",
-                "id": "password2",
-            }
-        ),
-        required=True,
-    )
-
-class NewPasswordForm(SetPasswordForm):
-    new_password1 = forms.CharField(
-        label="Contraseña",
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Contraseña",
-                "class": "password_input",
-                "id": "password",
-            }
-        ),
-        required=True,
-    )
-    new_password2 = forms.CharField(
-        label="Confirmar contraseña",
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Confirmar contraseña",
-                "class": "password2_input",
-                "id": "password2",
-            }
-        ),
-        required=True,
     )

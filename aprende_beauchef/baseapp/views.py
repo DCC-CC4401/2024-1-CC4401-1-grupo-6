@@ -50,9 +50,9 @@ def index(request):
             if search:
                 publicaciones = publicaciones.filter(publica__dicta__materia__nombre__icontains=search).order_by('-id')
             if max_price is not None:
-                publicaciones = publicaciones.filter(publica__dicta__tutor__precio__lte=max_price).order_by('-id')
+                publicaciones = publicaciones.filter(precio__lte=max_price).order_by('-id') #sino funciona apagar
             if min_price is not None:
-                publicaciones = publicaciones.filter(publica__dicta__tutor__precio__gte=min_price).order_by('-id')
+                publicaciones = publicaciones.filter(precio__gte=min_price).order_by('-id') #sino funciona apagar
             if alldisponibility != 'ALL':
                 publicaciones = publicaciones.filter(publica__dicta__tutor__horario__dia_semana=disponibility).order_by('-id')
             
@@ -141,7 +141,6 @@ def publish(request):
         
         if afiche_form.is_valid() and publish_form.is_valid():
             course = publish_form.cleaned_data['courses']
-            price = publish_form.cleaned_data['price']
             modality = publish_form.cleaned_data['modality']
             phone = publish_form.cleaned_data['phone']
             disponibility = publish_form.cleaned_data['disponibility']
@@ -151,7 +150,6 @@ def publish(request):
             if not Tutor.objects.filter(usuario=request.user).exists():
                 tutor = Tutor(
                     telefono=phone,
-                    precio=price, 
                     modalidad_preferida=modality, 
                     usuario=request.user
                 )
@@ -241,9 +239,9 @@ def mostrar_afiche(request, posterID):
         'titulo': afiche.nombre,
         'imagen': afiche.url.url,
         'descripcion': descripcion,
+        'precio': afiche.precio,
         'tutor': publicacion.dicta.tutor.usuario.name,
         'telefono': publicacion.dicta.tutor.telefono,
-        'precio': publicacion.dicta.tutor.precio,
         'modalidad': modalidad,
         'disponibilidad': 'A coordinar',
     }
@@ -262,7 +260,7 @@ def mostrar_afiche(request, posterID):
 
         send_mail(
             afiche.nombre,
-            f"Estimado/a {tutorName}, tiene un estudiante interesado en su tutoría: {afiche.nombre} de precio: {publicacion.dicta.tutor.precio}.\nPor favor, contáctelo a la brevedad.\n    Nombre del estudiante: {studentName}\n    Email del estudiante: {studentEmail}",
+            f"Estimado/a {tutorName}, tiene un estudiante interesado en su tutoría: {afiche.nombre} de precio: {afiche.precio}.\nPor favor, contáctelo a la brevedad.\n    Nombre del estudiante: {studentName}\n    Email del estudiante: {studentEmail}",
             studentEmail,  #acá va el email de la app
             [emailApp], #acá iría el email del tutor, pero como no existe para efectos de demo se prueba con otro correo
             fail_silently=False,
