@@ -65,7 +65,7 @@ const validateForm = () => {
   let description = document.getElementById("id_descripcion").value;
   let name = document.getElementById("id_nombre").value;
   // let courses = document.getElementById("id_courses");
-  let price = document.getElementById("id_price").value;
+  let price = document.getElementById("id_precio").value;
   // let modality = document.getElementById("id_modality");
   let phone = document.getElementById("id_phone").value;
   // let disponibility = document.getElementById("id_disponibility");
