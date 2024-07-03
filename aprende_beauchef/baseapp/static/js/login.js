@@ -68,10 +68,4 @@ const validateForm = () => {
 }
 
 let submitBtn = document.getElementById("login_button");
-submitBtn.addEventListener("click", (event) => {
-    event.preventDefault(); // Prevent the form from submitting immediately
-    if (validateForm()) {
-        document.getElementById("val-box").hidden = true;
-        document.getElementById("login_form").submit(); // Submit the form if the user confirms
-    }
-});
+submitBtn.addEventListener("click", validateForm);

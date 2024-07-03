@@ -55,9 +55,8 @@ def index(request):
                 publicaciones = publicaciones.filter(publica__dicta__tutor__precio__gte=min_price).order_by('-id')
             if alldisponibility != 'ALL':
                 publicaciones = publicaciones.filter(publica__dicta__tutor__horario__dia_semana=disponibility).order_by('-id')
-            
-            #La idea es que sigan filtrando de esta forma, es decir, reasignando publicaciones
-            #con los filtros para modalidad.
+            if modality != 'AMB':
+                publicaciones = publicaciones.filter(publica__dicta__tutor__modalidad_preferida=modality).order_by('-id')
 
             afiches = [publicacion for publicacion in publicaciones]
             return render(request, "index.html", {'filter_form': filter_form,'afiches': afiches})
