@@ -234,8 +234,23 @@ def mostrar_afiche(request, posterID):
     else:
         modalidad = 'Remota o Presencial'
 
-    #disponibilidad no lo pudo obtener
-        
+    disponibilidad = publicacion.dicta.tutor.horario.all()[0].dia_semana 
+    if(disponibilidad == "LUN"):
+        disponibilidad = "Lunes"
+    if(disponibilidad == "MAR"):
+        disponibilidad = "Martes"
+    if(disponibilidad == "MIE"):
+        disponibilidad = "Miércoles"
+    if(disponibilidad == "JUE"):
+        disponibilidad = "Jueves"
+    if(disponibilidad == "VIE"):
+        disponibilidad = "Viernes"
+    if(disponibilidad == "SAB"):
+        disponibilidad = "Sábado"
+    if(disponibilidad == "DOM"):
+        disponibilidad = "Domingo"
+    
+    disponibilidad = disponibilidad + " o a coordinar"
     data ={
         'titulo': afiche.nombre,
         'imagen': afiche.url.url,
@@ -244,7 +259,7 @@ def mostrar_afiche(request, posterID):
         'telefono': publicacion.dicta.tutor.telefono,
         'precio': publicacion.dicta.tutor.precio,
         'modalidad': modalidad,
-        'disponibilidad': 'A coordinar',
+        'disponibilidad': disponibilidad,
     }
 
     if request.method == "GET":
