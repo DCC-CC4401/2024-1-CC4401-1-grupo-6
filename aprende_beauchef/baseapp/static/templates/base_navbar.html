@@ -18,7 +18,7 @@
 
             {% if user.is_authenticated %}
             <li id="publicar"><a href="/publicar">Publicar</a></li>
-            <li id="perfil"><a href="/profile">Ver Perfil</a></li>
+            <li id="perfil"><a href="{% url 'profile' tutorUsername=user.username %}">Ver Perfil</a></li>
             <li id="cerrar"><a href="/logout">Cerrar sesión</a></li>
     
             {% else %}
