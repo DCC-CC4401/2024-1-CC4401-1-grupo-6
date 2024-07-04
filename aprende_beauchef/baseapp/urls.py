@@ -31,9 +31,10 @@ urlpatterns = [
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
         template_name='restablecer_contraseña_completo.html'), 
         name='password_reset_complete'),
-  
-    path("profile/", views.profile_view, name="profile"),
+    
+    # Definimos la ruta específica antes de la ruta general
     path("profile/edit/", views.profile_edit, name="profile_edit"),
+    path("profile/<str:tutorUsername>/", views.profile_view, name="profile"),
 ]
 
 if settings.DEBUG:
