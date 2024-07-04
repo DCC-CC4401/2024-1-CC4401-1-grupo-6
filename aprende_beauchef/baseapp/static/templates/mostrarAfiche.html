@@ -11,7 +11,9 @@ Mostrar Afiche
     <div class="container-main-information">
         <div clas="poster-information">
             <h1 class="title">{{titulo}}</h1>
-            <h2 class="tutor-name">{{ tutor }}</h2>
+            <a href="{% url 'profile' tutorUsername=tutorUsername %}">
+                <h2>{{tutor}}</h2>
+            </a>
         </div>
         <div class="contact-information">
             <h2><b>¿Te interesa?</b></h2>

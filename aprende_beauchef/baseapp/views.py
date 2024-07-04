@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import FilterForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from .forms import PublishForm, AficheForm, RegisterForm, LoginForm, NewPasswordForm, EditProfileForm
 from .models import Usuario, Tutor, Estudiante, Afiche, Horario, Dicta, Publica, Materia
 from django.contrib.auth import logout
-from django.http import JsonResponse
 from django.core.mail import send_mail
 import re 
 
@@ -255,6 +254,7 @@ def mostrar_afiche(request, posterID):
         'descripcion': descripcion,
         'precio': afiche.precio,
         'tutor': publicacion.dicta.tutor.usuario.name,
+        'tutorUsername': publicacion.dicta.tutor.usuario.username,
         'telefono': publicacion.dicta.tutor.telefono,
         'modalidad': modalidad,
         'disponibilidad': disponibilidad,
@@ -320,11 +320,18 @@ def new_password(request):
     return render(request, "nueva_contraseña.html", {'form': new_password_form})
 """
 
-def profile_view(request):
+def profile_view(request, tutorUsername):
     """
     
     """
     user=request.user
+    if user.username != tutorUsername:
+        try:
+            user = Usuario.objects.get(username=tutorUsername)
+        except Usuario.DoesNotExist:
+            print("Usuario does not exist")  # Debug line
+            return HttpResponse("Usuario no existe")
+
     try:
         tutor = Tutor.objects.get(usuario=user)
         # Obtener todas las publicaciones de afiches de este tutor
@@ -333,7 +340,7 @@ def profile_view(request):
     except Tutor.DoesNotExist:
         tutor = None
         afiches = None
-    return render(request, "profile.html", {'user': user, 'afiches': afiches})
+    return render(request, "profile.html", {'user': user, 'afiches': afiches, 'requesting_user': request.user})
 """
 def profile_edit(request):
 
@@ -350,6 +357,9 @@ def profile_edit(request):
 
 def profile_edit(request):
     user=request.user
+    if not user.is_authenticated:
+        return redirect('login')  # Redirige a la página de inicio de sesión si no está autenticado
+
     if request.method == "GET":
         editProfile_form = EditProfileForm(initial={'name': user.name, 'username': user.username, 'email': user.email})
         return render(request, "profile_config.html", {"editProfile_form": editProfile_form})

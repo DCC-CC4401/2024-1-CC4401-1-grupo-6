@@ -10,8 +10,10 @@ Perfil
 <div class="profile-content">
     <div class="user-tittle">
         <h1 class="user-profile">Perfil de {{user.name}}</h1>
-        <button id="conf" class="conf-button" onclick="location.href = 'http://127.0.0.1:8000/profile/edit/'">Configurar
-            perfil</button>
+        {%if user.username == requesting_user.username%}
+            <button id="conf" class="conf-button" onclick="location.href = 'http://127.0.0.1:8000/profile/edit/'">Configurar
+                perfil</button>
+        {%endif%}
     </div>
 
     <div class="user-info">
