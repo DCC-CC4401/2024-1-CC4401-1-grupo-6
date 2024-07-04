@@ -1,6 +1,7 @@
 from django import forms
 from .models import Materia, Afiche
 from django.contrib.auth.forms import SetPasswordForm
+from django.core.validators import MinValueValidator
 
 # Login Form #
 class LoginForm(forms.Form):
@@ -18,27 +19,24 @@ class LoginForm(forms.Form):
 class AficheForm(forms.ModelForm):
     class Meta:
         model = Afiche
-        fields = ["url", "descripcion", "nombre"]
+        fields = ["url", "descripcion", "nombre", "precio"]
         labels = {
             "url": "Sube tu afiche",
             "descripcion": "Escribe una descripción (opcional)",
             "nombre": "Escribe el nombre de tu afiche",
+            "precio": "Escribe el precio de tu afiche",
         }
 
     def __init__(self, *args, **kwargs):
         super(AficheForm, self).__init__(*args, **kwargs)
         self.fields["descripcion"].required = False
+        self.fields["precio"].validators.append(MinValueValidator(0))
+        self.fields["precio"].widget = forms.TextInput(attrs={"placeholder": "14000"})
 
 
 class PublishForm(forms.Form):
     courses = forms.ModelChoiceField(
         queryset=Materia.objects.all(), label="Escoge el curso", required=True
-    )
-    price = forms.IntegerField(
-        label="Precio estimado",
-        min_value=0,
-        widget=forms.TextInput(attrs={"placeholder": "14000"}),
-        required=True,
     )
     modality = forms.ChoiceField(
         choices=[("pres", "presencial"), ("rem", "remota")],

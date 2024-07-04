@@ -108,14 +108,12 @@ class Tutor(models.Model):
     Una clase que representa un Tutor
     El tutor guarda su telefono, precio, modalidad preferida y horario
     Campo: telefono de tipo IntegerField
-    Campo: precio de tipo IntegerField
     Campo: modalidad_preferida de tipo CharField
     Campo: horario de tipo ManyToManyField
     VersionInicial 1.0.0
     VersionActual 1.0.0
     """
     telefono = models.IntegerField(editable=True)
-    precio = models.IntegerField(editable=True)
     modalidad_preferida = models.CharField(
         choices=modalidad_choices, editable=True, max_length=200
     )
@@ -150,6 +148,7 @@ class Afiche(models.Model):
     Campo: url de tipo CharField
     Campo: descripcion de tipo CharField
     Campo: nombre de tipo CharField
+    Campo: precio de tipo IntegerField
     VersionInicial 1.0.0
     VersionActual 1.0.0
     """
@@ -158,6 +157,7 @@ class Afiche(models.Model):
     descripcion = models.CharField(max_length=200, blank=True)
     #Pendiente
     nombre = models.CharField(max_length=200)
+    precio = models.IntegerField(default=0, editable=True)
 
 # ------------- RELACIONES -------------
 class Tutoria(models.Model):
