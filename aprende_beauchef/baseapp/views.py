@@ -11,11 +11,17 @@ import re
 
 def index(request):
     """
-    Renderiza la página principal de la aplicación
-    Usa el método render que construye la plantilla index
-    Como requiere información de la base de datos, accede para extraer afiches y mostrarlos
+    Renderiza la página principal de la aplicación. Como requiere información de la base de datos, 
+    accede para extraer afiches y mostrarlos
 
-    parámetro request Información relacionada a la solicitud que se realiza
+    Si el método es GET, obtiene y muestra los afiches más recientes, limitados a 8.
+    Si el método es POST, aplica los filtros del formulario y muestra los afiches que cumplen con los criterios.
+
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza.
+
+    Returns:
+    HttpResponse: Página renderizada con afiches y formulario de filtro.
     """
     if request.method == "GET":
         posters = Afiche.objects.all().order_by('-id')
@@ -27,9 +33,10 @@ def index(request):
         return render(request, "index.html", {'filter_form': filter_form,'afiches': posters})
         
     elif request.method == "POST":
+
         filter_form = FilterForm(request.POST)
         if filter_form.is_valid():
-            # Al menos para los precios es necesario tener valor por default, por eso el if else
+            
             search = filter_form.cleaned_data['search']
             max_price = filter_form.cleaned_data['max_price']
             min_price = filter_form.cleaned_data['min_price'] 
@@ -65,7 +72,13 @@ def index(request):
 
 def search_courses(request):
     """
-    Vista que transforma la búsqueda de cursos en tiempo real en una lista de sugerencias JSON
+    Vista que transforma la búsqueda de cursos en tiempo real en una lista de sugerencias JSON.
+    
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza.
+
+    Returns:
+    JsonResponse: Lista de cursos que coinciden con la búsqueda.
     """
     codigo_curso = re.compile(r'^[A-Z]{2}\d{0,4}$')
     query = request.GET.get('search', '')
@@ -85,11 +98,16 @@ def search_courses(request):
 def login_view(request):
     """
     Dependiendo el método, renderiza la página de acceso a la aplicación o permite el acceso.
-    Si la solicitud es un GET, construye la plantilla login. Si es un POST, revisa que la
-    información entregada corresponda a un usuario registrado en la página. Si es así,
-    permite ingresar en la sesión y redireacciona a la página principal. Sino muestra un error. 
 
-    parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
+    Si el método es GET, muestra el formulario de inicio de sesión.
+    Si el método es un POST, revisa que la información entregada corresponda a un usuario registrado en la página. Si es así,
+    permite ingresar en la sesión y redireacciona a la página principal. Sino vuelve a redireccionar al login. 
+
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza, puede ser un GET o un POST.
+
+    Returns:
+    HttpResponse: Página de inicio de sesión o redirección a la página principal.
     """
     if request.method == "GET":
         login_form = LoginForm()
@@ -109,11 +127,7 @@ def login_view(request):
 
 def logout_user(request):
     """
-    Cierra la sesión de un usuario autentificado en la aplicación
-    Usa el método logout para limpiar la información relacionada a la sesión del usuario. 
-    No retorna. Luego se redirecciona a la página principal con el método redirect.
-
-    parámetro request Información relacionada a la solicitud que se realiza
+    Cierra la sesión del usuario autenticado y redirige a la página principal.
     """
     logout(request)
     return redirect("index")
@@ -121,12 +135,16 @@ def logout_user(request):
 
 def publish(request):
     """
-    Si el metodo de la request es de tipo GET, renderiza la página relacionada a la publicación de afiches
-    Usa el método render que construye la plantilla publicar
+    Maneja la publicación de nuevos afiches.
+    
+    Si el método es GET, muestra el formulario de publicación.
+    Si el método es POST, procesa el formulario (Validandolo en FrontEnd y BackEnd) y guarda la nueva publicación en la base de datos.
 
-    Si el metodo de la request es de tipo POST, recibe la información enviada por el formulario de publicación y 
-    la procesa para ser guardada en la base de datos.
-    Si el usuario ingreso mal algun campo se retorna un HttpResponse con un mensaje de error, de caso contrario redireccionamos a la página principal.
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza, puede ser un GET o un POST.
+
+    Returns:
+    HttpResponse: Página de publicación o redirección a la página principal.
     """
     if request.method == "GET":
         afiche_form = AficheForm()
@@ -172,14 +190,16 @@ def publish(request):
 
 def register(request):
     """
-    Dependiendo del método, renderiza la página de registro o ingresa la información 
-    de un usuario nuevo a la base de datos.
-    Si la solicitud es un GET, construye la plantilla register. Si es un POST, recibe
-    la información enviada por el formulario de registro y crea un nuevo usuario y, en su defecto,
-    un estudiante. Luego redirecciona a la página login para que el usuario pueda ingresar.
+    Renderiza la página de registro o maneja el proceso de registro de nuevos usuarios.
+    
+    Si el método es GET, muestra el formulario de registro.
+    Si el método es POST, crea un nuevo usuario y estudiante en la base de datos.
 
-    parámetro request Información relacionada a la solicitud que se realiza, puede ser un GET o un POST
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza, puede ser un GET o un POST.
 
+    Returns:
+    HttpResponse: Página de registro o redirección a la página de inicio de sesión.
     """
     if request.method == "GET":
         register_form = RegisterForm()
@@ -209,12 +229,17 @@ def register(request):
 
 def mostrar_afiche(request, posterID):
     """
-    Renderiza la página de un afiche más detallado
-    Si la solicitud es un GET, construye la plantilla mostrarAfiche.
-    Usa el método render que construye la plantilla mostrarAfciche
-    Como requiere información de la base de datos, accede para extraer afiches y mostrarlos
+    Renderiza la página de detalles de un afiche específico.
+    
+    Si el método es GET, muestra los detalles del afiche.
+    Si el método es POST, envía un correo al tutor indicando el interés de un estudiante en la tutoría.
 
-    parámetro request Información relacionada a la solicitud que se realiza
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza.
+    posterID (int): ID del afiche a mostrar.
+
+    Returns:
+    HttpResponse: Página de detalles del afiche.
     """
     afiche = Afiche.objects.filter(id=posterID).first()
     publicacion = Publica.objects.filter(afiche=afiche).first()
@@ -281,7 +306,20 @@ def mostrar_afiche(request, posterID):
         )
         return render(request, "mostrarAfiche.html", data)
 
+
 def newPassword(request):
+    """
+    Maneja el proceso de restablecimiento de contraseña para el usuario autenticado.
+    
+    Si el método es GET, muestra el formulario de restablecimiento de contraseña.
+    Si el método es POST, actualiza la contraseña del usuario en la base de datos si las contraseñas coinciden.
+
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza, puede ser un GET o un POST.
+
+    Returns:
+    HttpResponse: Página de restablecimiento de contraseña o redirección a la página de inicio de sesión.
+    """
     user=request.user
     if request.method == "GET":
         newPassword_form = NewPasswordForm()
@@ -298,31 +336,21 @@ def newPassword(request):
             user.save()
             return redirect("login")
 
-"""
-def reset_password(request):
-
-    Renderiza la página de restablecimiento de contraseña.
-    Usa el método render que construye la plantilla restablecer_contraseña
-
-    parámetro request Información relacionada a la solicitud que se realiza
-    
-    recovery_password_form = LoginRecoveryPassword()
-    return render(request, "restablecer_contraseña.html", {'form': recovery_password_form})
-
-def new_password(request):
-    
-    Renderiza la página de nueva contraseña.
-    Usa el método render que construye la plantilla nueva_contraseña
-
-    parámetro request Información relacionada a la solicitud que se realiza
-    
-    new_password_form = LoginNewPassword()
-    return render(request, "nueva_contraseña.html", {'form': new_password_form})
-"""
 
 def profile_view(request, tutorUsername):
     """
+    Renderiza la página de perfil de un tutor específico.
     
+    Si el usuario autenticado no es el tutor especificado, busca el perfil del tutor.
+    Si el tutor existe, obtiene y muestra los afiches publicados por el tutor.
+    Si el tutor no existe, muestra un mensaje de error.
+
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza.
+    tutorUsername (str): Nombre de usuario del tutor cuyo perfil se desea ver.
+
+    Returns:
+    HttpResponse: Página de perfil del tutor.
     """
     user=request.user
     if user.username != tutorUsername:
@@ -341,21 +369,21 @@ def profile_view(request, tutorUsername):
         tutor = None
         afiches = None
     return render(request, "profile.html", {'user': user, 'afiches': afiches, 'requesting_user': request.user})
-"""
-def profile_edit(request):
 
-    user=request.user
-    if request.method == "GET":
-        return render(request, "profile_config.html", {'user': user})
-    elif request.method == "POST":
-        data = request.POST
-        user.name = data.get("name")
-        user.email = data.get("email")
-        user.save()
-        return redirect(request, "profile.html", {'user': user})
-"""
 
 def profile_edit(request):
+    """
+    Maneja la edición del perfil del usuario autenticado.
+    
+    Si el método es GET, muestra el formulario de edición de perfil con los datos actuales del usuario.
+    Si el método es POST, actualiza la información del perfil del usuario en la base de datos si el formulario es válido.
+
+    Parameters:
+    request (HttpRequest): Información relacionada a la solicitud que se realiza, puede ser un GET o un POST.
+
+    Returns:
+    HttpResponse: Página de perfil actualizada o redirección a la página de inicio de sesión si no está autenticado.
+    """
     user=request.user
     if not user.is_authenticated:
         return redirect('login')  # Redirige a la página de inicio de sesión si no está autenticado
