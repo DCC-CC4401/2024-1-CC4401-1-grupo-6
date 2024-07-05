@@ -27,6 +27,7 @@ class Estudiante(models.Model):
     """
     tutorias_cursadas = models.TextField(blank=True, null=True)
     cursos_de_interes = models.TextField(blank=True, null=True)
+    
     # Si se borra la instancia de Usuario id=1 (y este era un estudiante) este es borrado también de la database
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
 
@@ -106,7 +107,7 @@ class Tutor(models.Model):
 
     """
     Una clase que representa un Tutor
-    El tutor guarda su telefono, precio, modalidad preferida y horario
+    El tutor guarda su telefono, modalidad preferida y horario
     Campo: telefono de tipo IntegerField
     Campo: modalidad_preferida de tipo CharField
     Campo: horario de tipo ManyToManyField
@@ -144,7 +145,7 @@ class Materia(models.Model):
 class Afiche(models.Model):
     """
     Una clase que representa un Afiche
-    El Afiche guarda su url y descripcion
+    El Afiche guarda su url (el archivo de algún tipo de imagen), descripcion y precio
     Campo: url de tipo CharField
     Campo: descripcion de tipo CharField
     Campo: nombre de tipo CharField
@@ -155,7 +156,6 @@ class Afiche(models.Model):
     
     url = models.FileField(upload_to='uploads/')
     descripcion = models.CharField(max_length=200, blank=True)
-    #Pendiente
     nombre = models.CharField(max_length=200)
     precio = models.IntegerField(default=0, editable=True)
 
