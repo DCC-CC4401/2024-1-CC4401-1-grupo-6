@@ -12,7 +12,9 @@ Como solución a este problema, se propone la creación de una aplicación donde
   
   "Como tutor quiero informar mis horarios para dar a conocer mi disponibilidad"
 
-En este Sprint 1, solo se abordarán las primeras dos.
+#### Historias de Usuario abordadas por Sprint:
+- Sprint 1, solo se abordarán las primeras dos.
+- Sprint 2, se abordaron las últimas dos.
 
 ## Data models
 
@@ -38,6 +40,8 @@ Luego, al clonar el repositorio, teniendo **ACTIVADO** el ambiente virtual, para
 ```
 pip install -r requirements.txt
 ```
+
+Cabe destacar que la **versión de Django** está incluida y determinada por el archivo requirements, aún así la indicamos acá: Django 5.0.4
 
 Finalmente para ejecutar el proyecto, estando dentro de la carpeta del proyecto "aprende_beauchef":
 ```
@@ -68,7 +72,7 @@ python manage.py test baseapp.tests.test_models
 ```
 
 ## Aclaraciones
-La rama que contiene el Sprint 1 está en develop, la rama main tendrá el proyeto final luego tener terminado tanto el Sprint 1 como el 2. Después de la revisión de este Sprint, se borrarán la mayoría de las ramas pues ya habrán cumplido con su función y así el repositorio estará más ordenado.
+La rama por defecto y que contiene el Sprint 2 es develop.
 
 Con respecto a los commits, al inicio no se contaba con un formato determinado y eran genéricos, después el equipo aprendió a realizar descripciones más específicas y decidió la siguiente convención utilizando las palabras claves aprendidas en el Auxiliar 0:
 
