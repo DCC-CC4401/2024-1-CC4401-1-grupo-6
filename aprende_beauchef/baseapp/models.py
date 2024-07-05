@@ -154,7 +154,7 @@ class Afiche(models.Model):
     VersionActual 1.0.0
     """
     
-    url = models.FileField(upload_to='uploads/')
+    url = models.FileField(upload_to='uploads/', editable=True)
     descripcion = models.CharField(max_length=200, blank=True)
     nombre = models.CharField(max_length=200)
     precio = models.IntegerField(default=0, editable=True)
