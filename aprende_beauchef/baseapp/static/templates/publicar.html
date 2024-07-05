@@ -19,9 +19,9 @@ Publicar
             <ul id="val-list"></ul>
         </div>
 
-        <div class="input">  
+        <div class="input">
             <h2 class="title"> Publicar </h2>
-            
+
             {{ afiche_form.as_p }}
             {{ publish_form.as_p }}
         </div>
@@ -30,15 +30,17 @@ Publicar
             <button type="button" onclick="location.href = 'http://127.0.0.1:8000/'" class="backToIndex">Volver</button>
         </div>
     </form>
+
+    <!-- Cuadro de confirmación -->
+    <div id="confirmation-box" hidden>
+        <h2>Confirmar publicación</h2>
+        <p>¿Está seguro de que desea enviar esta información?</p>
+        <button id="confirm_button" type="submit" form="publish_form">Confirmar</button>
+        <button id="cancel_button" type="button">Cancelar</button>
+    </div>
 </div>
 
-<!-- Cuadro de confirmación -->
-<div id="confirmation-box" hidden>
-    <h2>Confirmar publicación</h2>
-    <p>¿Está seguro de que desea enviar esta información?</p>
-    <button id="confirm_button" type="submit" form="publish_form">Confirmar</button>
-    <button id="cancel_button" type="button">Cancelar</button>
-</div>
+
 {% endblock %}
 
 {% block javascript %}

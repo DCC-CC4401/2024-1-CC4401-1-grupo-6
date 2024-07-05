@@ -275,8 +275,8 @@ def mostrar_afiche(request, posterID):
         send_mail(
             afiche.nombre,
             f"Estimado/a {tutorName}, tiene un estudiante interesado en su tutoría: {afiche.nombre} de precio: {afiche.precio}.\nPor favor, contáctelo a la brevedad.\n    Nombre del estudiante: {studentName}\n    Email del estudiante: {studentEmail}",
-            studentEmail,  #acá va el email de la app
-            [emailApp], #acá iría el email del tutor, pero como no existe para efectos de demo se prueba con otro correo
+            emailApp,  
+            [emailTutor], 
             fail_silently=False,
         )
         return render(request, "mostrarAfiche.html", data)
